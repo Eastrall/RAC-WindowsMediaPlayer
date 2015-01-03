@@ -13,7 +13,7 @@ using System.Text;
  * Notes:
  * -------------------------------------------------------*/
 
-namespace WindowsMediaPlayer.MediaPlayer
+namespace WindowsMediaPlayer.Media
 {
     public class MediaMusic
     {

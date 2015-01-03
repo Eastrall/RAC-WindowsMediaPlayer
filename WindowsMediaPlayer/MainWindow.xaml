@@ -7,6 +7,7 @@
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="Musique">
             <mui:LinkGroup.Links>
+                <mui:Link DisplayName="home" Source="/Pages/Home/Home.xaml" />
                 <mui:Link DisplayName="Selection" Source="#" />
                 <mui:Link DisplayName="Playlists" Source="#" />
             </mui:LinkGroup.Links>

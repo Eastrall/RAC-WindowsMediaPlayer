@@ -1,37 +1,39 @@
-﻿using FirstFloor.ModernUI.Presentation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Media;
 
 /*--------------------------------------------------------
- * HomeViewModel.cs - file description
+ * AppearanceModel.cs - file description
  * 
  * Version: 1.0
  * Author: Filipe
- * Created: 03/01/2015 15:54:46
+ * Created: 03/01/2015 21:13:03
  * 
  * Notes:
  * -------------------------------------------------------*/
 
-namespace WindowsMediaPlayer.Pages.Home
+namespace WindowsMediaPlayer.Pages.Settings
 {
-    public class HomeViewModel : NotifyPropertyChanged
+    public class AppearanceModel
     {
         #region FIELDS
 
-        #endregion
+        public Color AmbiantColor { get; set; }
 
-        #region PROPERTIES
+        public String Theme { get; set; }
+
+        public String FontSize { get; set; }
 
         #endregion
 
         #region CONSTRUCTORS
 
         /// <summary>
-        /// Creates a HomeViewModel instance
+        /// Creates a new AppearanceModel
         /// </summary>
-        public HomeViewModel()
+        public AppearanceModel()
         {
         }
 

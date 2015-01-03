@@ -6,30 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using WindowsMediaPlayer.Serializer;
 
 namespace WindowsMediaPlayer.Pages.Settings
 {
     /// <summary>
     /// A simple view model for configuring theme, font and accent colors.
     /// </summary>
-    public class AppearanceViewModel
-        : NotifyPropertyChanged
+    public class AppearanceViewModel : NotifyPropertyChanged
     {
+        #region FIELDS
+
         private const string FontSmall = "small";
         private const string FontLarge = "large";
-
-        // 9 accent colors from metro design principles
-        /*private Color[] accentColors = new Color[]{
-            Color.FromRgb(0x33, 0x99, 0xff),   // blue
-            Color.FromRgb(0x00, 0xab, 0xa9),   // teal
-            Color.FromRgb(0x33, 0x99, 0x33),   // green
-            Color.FromRgb(0x8c, 0xbf, 0x26),   // lime
-            Color.FromRgb(0xf0, 0x96, 0x09),   // orange
-            Color.FromRgb(0xff, 0x45, 0x00),   // orange red
-            Color.FromRgb(0xe5, 0x14, 0x00),   // red
-            Color.FromRgb(0xff, 0x00, 0x97),   // magenta
-            Color.FromRgb(0xa2, 0x00, 0xff),   // purple            
-        };*/
 
         // 20 accent colors from Windows Phone 8
         private Color[] accentColors = new Color[]{
@@ -60,26 +49,11 @@ namespace WindowsMediaPlayer.Pages.Settings
         private Link selectedTheme;
         private string selectedFontSize;
 
-        public AppearanceViewModel()
-        {
-            // add the default themes
-            this.themes.Add(new Link { DisplayName = "dark", Source = AppearanceManager.DarkThemeSource });
-            this.themes.Add(new Link { DisplayName = "light", Source = AppearanceManager.LightThemeSource });
+        private AppearanceModel Model;
 
-            this.SelectedFontSize = AppearanceManager.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
-            SyncThemeAndColor();
+        #endregion
 
-            AppearanceManager.Current.PropertyChanged += OnAppearanceManagerPropertyChanged;
-        }
-
-        private void SyncThemeAndColor()
-        {
-            // synchronizes the selected viewmodel theme with the actual theme used by the appearance manager.
-            this.SelectedTheme = this.themes.FirstOrDefault(l => l.Source.Equals(AppearanceManager.Current.ThemeSource));
-
-            // and make sure accent color is up-to-date
-            this.SelectedAccentColor = AppearanceManager.Current.AccentColor;
-        }
+        #region PROPERTIES
 
         private void OnAppearanceManagerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -131,6 +105,7 @@ namespace WindowsMediaPlayer.Pages.Settings
                     OnPropertyChanged("SelectedFontSize");
 
                     AppearanceManager.Current.FontSize = value == FontLarge ? FontSize.Large : FontSize.Small;
+                    this.SyncThemeAndColor();
                 }
             }
         }
@@ -149,5 +124,53 @@ namespace WindowsMediaPlayer.Pages.Settings
                 }
             }
         }
+
+        #endregion
+
+        #region CONSTRUCTORS
+
+        public AppearanceViewModel()
+        {
+            this.Model = new AppearanceModel();
+
+            // add the default themes
+            this.themes.Add(new Link { DisplayName = "dark", Source = AppearanceManager.DarkThemeSource });
+            this.themes.Add(new Link { DisplayName = "light", Source = AppearanceManager.LightThemeSource });
+
+            this.SelectedFontSize = AppearanceManager.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
+            SyncThemeAndColor();
+
+            AppearanceManager.Current.PropertyChanged += OnAppearanceManagerPropertyChanged;
+        }
+
+        #endregion
+
+        #region METHODS
+
+        private void SyncThemeAndColor()
+        {
+            // synchronizes the selected viewmodel theme with the actual theme used by the appearance manager.
+            this.SelectedTheme = this.themes.FirstOrDefault(l => l.Source.Equals(AppearanceManager.Current.ThemeSource));
+
+            // and make sure accent color is up-to-date
+            this.SelectedAccentColor = AppearanceManager.Current.AccentColor;
+
+            // set the data in the model
+            this.Model.Theme = this.selectedTheme.DisplayName;
+            this.Model.AmbiantColor = this.selectedAccentColor;
+            this.Model.FontSize = this.selectedFontSize;
+            this.SaveConfiguration();
+        }
+
+        private void SaveConfiguration()
+        {
+            XmlSerializer.Serialize<AppearanceModel>(this.Model, Constants.CONFIGURATION_FILE);
+        }
+
+        private void LoadConfiguration()
+        {
+        }
+
+        #endregion
     }
 }
