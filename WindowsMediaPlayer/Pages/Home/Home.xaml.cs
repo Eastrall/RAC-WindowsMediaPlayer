@@ -13,16 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WindowsMediaPlayer.Pages.Musique
+namespace WindowsMediaPlayer.Pages.Home
 {
     /// <summary>
-    /// Interaction logic for Selection.xaml
+    /// Interaction logic for Home.xaml
     /// </summary>
-    public partial class Selection : UserControl
+    public partial class Home : UserControl
     {
-        public Selection()
+        public Home()
         {
             InitializeComponent();
+            this.DataContext = new HomeViewModel();
         }
     }
 }
