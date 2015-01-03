@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WindowsMediaPlayer.Pages.Home
+namespace WindowsMediaPlayer.Pages.Music
 {
     /// <summary>
     /// Interaction logic for Home.xaml

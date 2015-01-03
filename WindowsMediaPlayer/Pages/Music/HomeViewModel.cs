@@ -1,35 +1,33 @@
-﻿using FirstFloor.ModernUI.Presentation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FirstFloor.ModernUI.Presentation;
 
 /*--------------------------------------------------------
  * HomeViewModel.cs - file description
  * 
  * Version: 1.0
  * Author: Filipe
- * Created: 03/01/2015 15:54:46
+ * Created: 03/01/2015 21:44:45
  * 
  * Notes:
  * -------------------------------------------------------*/
 
-namespace WindowsMediaPlayer.Pages.Home
+namespace WindowsMediaPlayer.Pages.Music
 {
     public class HomeViewModel : NotifyPropertyChanged
     {
         #region FIELDS
 
-        #endregion
-
-        #region PROPERTIES
+        
 
         #endregion
 
         #region CONSTRUCTORS
 
         /// <summary>
-        /// Creates a HomeViewModel instance
+        /// Creates a new HomeViewModel instance
         /// </summary>
         public HomeViewModel()
         {
@@ -38,7 +36,6 @@ namespace WindowsMediaPlayer.Pages.Home
         #endregion
 
         #region METHODS
-
         #endregion
     }
 }

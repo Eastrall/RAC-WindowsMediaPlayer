@@ -38,23 +38,30 @@ namespace WindowsMediaPlayer
         /// </summary>
         private void LoadConfiguration()
         {
+            if (File.Exists(Constants.CONFIGURATION_FILE) == false)
+            {
+                return;
+            }
             StreamReader _reader = new StreamReader(Constants.CONFIGURATION_FILE);
             Pages.Settings.AppearanceModel _appConfig = XmlSerializer.Deserialize<Pages.Settings.AppearanceModel>(_reader);
-            
-            AppearanceManager.Current.AccentColor = _appConfig.AmbiantColor;
-            switch (_appConfig.Theme)
+
+            if (_appConfig != null)
             {
-                case "dark": AppearanceManager.Current.ThemeSource = AppearanceManager.DarkThemeSource; break;
-                case "light": 
-                default:
-                    AppearanceManager.Current.ThemeSource = AppearanceManager.LightThemeSource; break;
-            }
-            switch (_appConfig.FontSize)
-            {
-                case "small": AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Small; break;
-                case "large":
-                default:
-                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Large; break;
+                AppearanceManager.Current.AccentColor = _appConfig.AmbiantColor;
+                switch (_appConfig.Theme)
+                {
+                    case "dark": AppearanceManager.Current.ThemeSource = AppearanceManager.DarkThemeSource; break;
+                    case "light":
+                    default:
+                        AppearanceManager.Current.ThemeSource = AppearanceManager.LightThemeSource; break;
+                }
+                switch (_appConfig.FontSize)
+                {
+                    case "small": AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Small; break;
+                    case "large":
+                    default:
+                        AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Large; break;
+                }
             }
         }
     }
