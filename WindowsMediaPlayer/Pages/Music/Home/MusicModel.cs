@@ -46,6 +46,7 @@ namespace WindowsMediaPlayer.Pages.Music.Home
             this.Artist = fileinfos.Tag.FirstAlbumArtist;
             this.Duration = fileinfos.Properties.Duration.ToString(@"mm\:ss");
             this.Album = fileinfos.Tag.Album;
+            this.Path = path;
         }
 
         #endregion

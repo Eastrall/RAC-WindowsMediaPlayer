@@ -1,4 +1,5 @@
-﻿<UserControl xmlns:Player="clr-namespace:WindowsMediaPlayer.Pages.Music.Player"  x:Class="WindowsMediaPlayer.Pages.Music.Home.Home"
+﻿<UserControl xmlns:Player="clr-namespace:WindowsMediaPlayer.Pages.Music.Player"  
+             x:Class="WindowsMediaPlayer.Pages.Music.Home.Home"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
