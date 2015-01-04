@@ -28,7 +28,9 @@
         <ScrollViewer Margin="0,66,0,10" Grid.RowSpan="2">
             <StackPanel>
                 <DataGrid Name="ALL_MUSIC_LIST" ItemsSource="{Binding Musics}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
-                    
+                    <DataGrid.InputBindings>
+                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding PlayMusic}" CommandParameter="{Binding ElementName=ALL_MUSIC_LIST, Path=SelectedItem}" />
+                    </DataGrid.InputBindings>
                     <DataGrid.Columns>
                         <mui:DataGridTextColumn Header="TITRE"  Binding="{Binding Title}"/>
                         <mui:DataGridTextColumn Header="ARTISTE" Binding="{Binding Artist}" />

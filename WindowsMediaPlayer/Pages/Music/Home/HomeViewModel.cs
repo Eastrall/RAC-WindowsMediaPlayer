@@ -32,6 +32,8 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
         private RelayCommand addMusicButton;
 
+        private RelayCommand playMusic;
+
         private OpenFileDialog dialog;
 
         #endregion
@@ -77,6 +79,18 @@ namespace WindowsMediaPlayer.Pages.Music.Home
             }
         }
 
+        public RelayCommand PlayMusic
+        {
+            get
+            {
+                if (this.playMusic == null)
+                {
+                    this.playMusic = new RelayCommand((param) => { this.PlayMusicAction(param); });
+                }
+                return this.playMusic;
+            }
+        }
+
         public OpenFileDialog Dialog
         {
             get
@@ -110,7 +124,7 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
         #region METHODS
 
-        void    onAddMusic(Object sender)
+        void onAddMusic(Object sender)
         {
             String _notAdded = "";
 
@@ -138,9 +152,9 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                 var _dlg = new ModernDialog
                 {
                     Title = "Information",
-                    Content = "Les musiques suivantes sont déjà sur votre bibliothèque et n'ont donc pas été ajoutées:\n\n" +_notAdded
+                    Content = "Les musiques suivantes sont déjà sur votre bibliothèque et n'ont donc pas été ajoutées:\n\n" + _notAdded
                 };
-                _dlg.Buttons = new Button[] { _dlg.OkButton};
+                _dlg.Buttons = new Button[] { _dlg.OkButton };
                 _dlg.ShowDialog();
             }
         }
@@ -176,6 +190,11 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                     this.Musics.Add(_music);
                 }
             }
+        }
+
+        public void PlayMusicAction(Object param)
+        {
+
         }
 
         #endregion
