@@ -128,17 +128,14 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                 {
                     if (File.Exists(filename))
                     {
-                        MusicModel _toAdd;
-                        if ((_toAdd = GetMusic(filename)) != null)
+                        MusicModel _toAdd = new MusicModel(filename);
+                        if (Exists(filename) == false)
                         {
-                            if (Exists(filename) == false)
-                            {
-                                this.MusicPaths.Add(filename);
-                                this.Musics.Add(_toAdd);
-                            }
-                            else
-                                _notAdded += _toAdd.Title + " de " + _toAdd.Artist + "\n";
+                            this.MusicPaths.Add(filename);
+                            this.Musics.Add(_toAdd);
                         }
+                        else
+                            _notAdded += _toAdd.Title + " de " + _toAdd.Artist + "\n";
                     }
                 }
                 this.SaveMusics();
@@ -153,28 +150,6 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                 _dlg.Buttons = new Button[] { _dlg.OkButton};
                 _dlg.ShowDialog();
             }
-        }
-
-        private MusicModel GetMusic(String path)
-        {
-            TagLib.File fileinfos;
-
-            try
-            {
-                fileinfos = TagLib.File.Create(path);
-            }
-            catch
-            {
-                return null;
-            }
-            MusicModel _music = new MusicModel()
-            {
-                Title = fileinfos.Tag.Title,
-                Artist = fileinfos.Tag.FirstAlbumArtist,
-                Duration = fileinfos.Properties.Duration.ToString(@"mm\:ss"),
-                Album = fileinfos.Tag.Album
-            };
-            return _music;
         }
 
         private Boolean Exists(String toAdd)
@@ -194,8 +169,6 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
         private void LoadMusics()
         {
-            MusicModel _music;
-
             if (File.Exists(Constants.MUSICS_FILE) == false)
             {
                 return;
@@ -206,8 +179,8 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                 this.Musics.Clear();
                 foreach (String path in this.MusicPaths)
                 {
-                    if ((_music = GetMusic(path)) != null)
-                        this.Musics.Add(_music);
+                    MusicModel _music = new MusicModel(path);
+                    this.Musics.Add(_music);
                 }
             }
         }

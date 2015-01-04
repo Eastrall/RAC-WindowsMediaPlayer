@@ -37,6 +37,17 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         {
         }
 
+        public MusicModel(String path)
+        {
+            TagLib.File fileinfos;
+
+            fileinfos = TagLib.File.Create(path);
+            this.Title = fileinfos.Tag.Title;
+            this.Artist = fileinfos.Tag.FirstAlbumArtist;
+            this.Duration = fileinfos.Properties.Duration.ToString(@"mm\:ss");
+            this.Album = fileinfos.Tag.Album;
+        }
+
         #endregion
 
         #region METHODS
