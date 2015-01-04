@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WindowsMediaPlayer.Media;
 
 /*--------------------------------------------------------
  * MediaPlayer.cs - file description
@@ -13,7 +14,7 @@ using System.Text;
  * Notes:
  * -------------------------------------------------------*/
 
-namespace WindowsMediaPlayer.Media
+namespace WindowsMediaPlayer
 {
     public class MediaPlayer
     {

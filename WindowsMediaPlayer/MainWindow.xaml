@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         Title="Royal Alambic Club Player" IsTitleVisible="True"
-        ContentSource="/Pages/Music/Home.xaml">
+        ContentSource="/Pages/Music/Home/Home.xaml">
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="Musique">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="home" Source="/Pages/Music/Home.xaml" />
+                <mui:Link DisplayName="home" Source="/Pages/Music/Home/Home.xaml" />
                 <mui:Link DisplayName="Selection" Source="#" />
                 <mui:Link DisplayName="Playlists" Source="#" />
             </mui:LinkGroup.Links>

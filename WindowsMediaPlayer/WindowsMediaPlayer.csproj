@@ -63,10 +63,11 @@
     <Compile Include="General\Constants.cs" />
     <Compile Include="Media\MediaMusic.cs" />
     <Compile Include="Media\MediaPlayer.cs" />
-    <Compile Include="Pages\Music\Home.xaml.cs">
+    <Compile Include="Pages\Music\Home\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Music\HomeViewModel.cs" />
+    <Compile Include="Pages\Music\Home\HomeViewModel.cs" />
+    <Compile Include="Pages\Music\Home\MusicModel.cs" />
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -88,7 +89,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Page Include="Pages\Music\Home.xaml">
+    <Page Include="Pages\Music\Home\Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,6 +108,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Music\Playlist\" />
+    <Folder Include="Pages\Music\Selection\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
