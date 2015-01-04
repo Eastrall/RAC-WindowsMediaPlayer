@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Timers;
+using System.Windows.Threading;
 
 /*--------------------------------------------------------
  * MediaMusic.cs - file description
@@ -26,6 +28,11 @@ namespace WindowsMediaPlayer.Media
         #region PROPERTIES
 
         /// <summary>
+        /// Media Timer
+        /// </summary>
+        public DispatcherTimer Timer { get; set; }
+
+        /// <summary>
         /// Gets the confirmation if there is any media element in the media player
         /// </summary>
         public Boolean HasMedia
@@ -36,6 +43,9 @@ namespace WindowsMediaPlayer.Media
             }
         }
 
+        /// <summary>
+        /// Check if the music is paused or not
+        /// </summary>
         public Boolean InPause { get; private set; }
 
         /// <summary>
@@ -133,6 +143,7 @@ namespace WindowsMediaPlayer.Media
         public void Load(String path)
         {
             this.mediaPlayer.Open(new Uri(path));
+            this.InPause = true;
         }
 
         /// <summary>

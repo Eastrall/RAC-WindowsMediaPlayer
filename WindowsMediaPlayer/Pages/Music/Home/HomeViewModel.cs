@@ -194,7 +194,10 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
         public void PlayMusicAction(Object param)
         {
+            MusicModel _music = param as MusicModel;
 
+            MediaPlayer.Instance.Audio.Load(_music.Path);
+            MediaPlayer.Instance.Audio.Play();
         }
 
         #endregion
