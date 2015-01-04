@@ -2,34 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FirstFloor.ModernUI.Presentation;
 
 /*--------------------------------------------------------
- * HomeViewModel.cs - file description
+ * MusicModel.cs - file description
  * 
  * Version: 1.0
  * Author: Filipe
- * Created: 03/01/2015 21:44:45
+ * Created: 04/01/2015 12:01:20
  * 
  * Notes:
  * -------------------------------------------------------*/
 
-namespace WindowsMediaPlayer.Pages.Music
+namespace WindowsMediaPlayer.Pages.Music.Home
 {
-    public class HomeViewModel : NotifyPropertyChanged
+    public class MusicModel
     {
         #region FIELDS
 
-        
+        public String Title { get; set; }
+
+        public String Artist { get; set; }
+
+        public String Duration { get; set; }
+
+        public String Album { get; set; }
 
         #endregion
 
         #region CONSTRUCTORS
 
-        /// <summary>
-        /// Creates a new HomeViewModel instance
-        /// </summary>
-        public HomeViewModel()
+        public MusicModel()
         {
         }
 

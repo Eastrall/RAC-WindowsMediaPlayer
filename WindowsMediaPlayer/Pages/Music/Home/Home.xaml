@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="WindowsMediaPlayer.Pages.Music.Home.Home"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:viewmodel="clr-namespace:WindowsMediaPlayer.Pages.Music.Home"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <UserControl.DataContext>
+        <viewmodel:HomeViewModel />
+    </UserControl.DataContext>
+
+    <Grid Style="{StaticResource ContentRoot}" >
+        <ScrollViewer>
+            <StackPanel Width="Auto">
+                <TextBlock Text="TOUTES LES MUSIQUES" Style="{StaticResource Heading2}" />
+                <mui:ModernButton Width="Auto" Content="ajouter des musiques" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "></mui:ModernButton>
+                <DataGrid Name="ALL_MUSIC_LIST" ItemsSource="{Binding Musics}" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <mui:DataGridTextColumn Header="TITRE"  Binding="{Binding Title}"/>
+                        <mui:DataGridTextColumn Header="ARTISTE" Binding="{Binding Artist}" />
+                        <mui:DataGridTextColumn Header="DUREE" Binding="{Binding Duration}" />
+                        <mui:DataGridTextColumn Header="ALBUM" Binding="{Binding Album}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
