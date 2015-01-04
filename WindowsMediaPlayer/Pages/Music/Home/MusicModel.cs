@@ -27,6 +27,8 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
         public String Album { get; set; }
 
+        public String Path { get; set; }
+
         #endregion
 
         #region CONSTRUCTORS

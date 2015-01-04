@@ -18,5 +18,7 @@ namespace WindowsMediaPlayer
     public class Constants
     {
         public const String CONFIGURATION_FILE = "config.xml";
+        public const String MUSICS_FILE = "musics.xml";
+        public const String PLAYLISTS_FILE = "playlists.xml";
     }
 }
