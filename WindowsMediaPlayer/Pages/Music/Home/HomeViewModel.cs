@@ -40,6 +40,14 @@ namespace WindowsMediaPlayer.Pages.Music.Home
             }
         }
 
+        public String PlayIcon
+        {
+            get
+            {
+                return "F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z";
+            }
+        }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -50,13 +58,14 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         public HomeViewModel()
         {
             this.musics = new ObservableCollection<MusicModel>();
-            this.musics.Add(new MusicModel()
-                {
-                    Title = "Cou",
-                    Artist = "Samy",
-                    Duration = "5:03",
-                    Album = "La révolte du cou"
-                });
+            //for (Int32 i = 0; i < 50; i ++)
+                this.musics.Add(new MusicModel()
+                    {
+                        Title = "Cou",
+                        Artist = "Samy",
+                        Duration = "5:03",
+                        Album = "La révolte du cou"
+                    });
         }
 
         #endregion
