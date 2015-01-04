@@ -1,3 +1,4 @@
 WindowsMediaPlayer/bin/
 WindowsMediaPlayer/obj/
 /*.suo
+packages/
