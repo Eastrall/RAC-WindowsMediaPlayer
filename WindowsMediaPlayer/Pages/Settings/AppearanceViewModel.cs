@@ -167,10 +167,6 @@ namespace WindowsMediaPlayer.Pages.Settings
             XmlSerializer.Serialize<AppearanceModel>(this.Model, Constants.CONFIGURATION_FILE);
         }
 
-        private void LoadConfiguration()
-        {
-        }
-
         #endregion
     }
 }

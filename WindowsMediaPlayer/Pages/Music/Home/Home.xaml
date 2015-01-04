@@ -16,8 +16,8 @@
         <ScrollViewer>
             <StackPanel Width="Auto">
                 <TextBlock Text="TOUTES LES MUSIQUES" Style="{StaticResource Heading2}" />
-                <mui:ModernButton Width="Auto" Content="ajouter des musiques" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "></mui:ModernButton>
-                <DataGrid Name="ALL_MUSIC_LIST" ItemsSource="{Binding Musics}" AutoGenerateColumns="False" CanUserAddRows="False">
+                <mui:ModernButton Width="Auto" Command="{Binding AddMusicButton}" Content="ajouter des musiques" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "></mui:ModernButton>
+                <DataGrid Name="ALL_MUSIC_LIST" ItemsSource="{Binding Musics}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <mui:DataGridTextColumn Header="TITRE"  Binding="{Binding Title}"/>
                         <mui:DataGridTextColumn Header="ARTISTE" Binding="{Binding Artist}" />
