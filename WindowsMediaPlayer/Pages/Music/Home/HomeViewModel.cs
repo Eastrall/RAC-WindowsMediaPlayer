@@ -162,6 +162,8 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
         private void LoadMusics()
         {
+            List<String> _removedFiles = new List<String>();
+
             if (File.Exists(Constants.MUSICS_FILE) == false)
             {
                 return;
@@ -172,8 +174,30 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                 this.Musics.Clear();
                 foreach (String path in this.MusicPaths)
                 {
-                    MusicModel _music = new MusicModel(path);
-                    this.Musics.Add(_music);
+                    if (File.Exists(path))
+                    {
+                        MusicModel _music = new MusicModel(path);
+                        this.Musics.Add(_music);
+                    }
+                    else
+                        _removedFiles.Add(path);
+                }
+                if (_removedFiles.Count > 0)
+                {
+                    String _output = "";
+                    foreach (String name in _removedFiles)
+                    {
+                        _output += name + "\n";
+                        this.MusicPaths.Remove(name);
+                    }
+                    var _dlg = new ModernDialog
+                    {
+                        Title = "Information",
+                        Content = "Les musiques suivantes ne se trouvent plus à leur emplacement d'origine, elles ont donc été retirées de votre bibliothèque:\n\n" + _output
+                    };
+                    _dlg.Buttons = new Button[] { _dlg.OkButton };
+                    _dlg.ShowDialog();
+                    this.SaveMusics();
                 }
             }
         }
