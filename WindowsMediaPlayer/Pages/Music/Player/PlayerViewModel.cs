@@ -52,6 +52,30 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
         }
 
+        public RelayCommand RewindCommand
+        {
+            get
+            {
+                if (this.rewindCommand == null)
+                {
+                    this.rewindCommand = new RelayCommand((param) => { });
+                }
+                return this.rewindCommand;
+            }
+        }
+
+        public RelayCommand ForwardCommand
+        {
+            get
+            {
+                if (this.forwardCommand == null)
+                {
+                    this.forwardCommand = new RelayCommand((param) => { });
+                }
+                return this.forwardCommand;
+            }
+        }
+
         public String MusicTotalDuration
         {
             get
