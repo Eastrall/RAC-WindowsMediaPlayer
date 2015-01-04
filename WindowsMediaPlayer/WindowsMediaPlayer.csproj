@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -74,6 +75,10 @@
     </Compile>
     <Compile Include="Pages\Music\Home\HomeViewModel.cs" />
     <Compile Include="Pages\Music\Home\MusicModel.cs" />
+    <Compile Include="Pages\Music\Player\Player.xaml.cs">
+      <DependentUpon>Player.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Music\Player\PlayerViewModel.cs" />
     <Compile Include="Pages\Music\Playlist\Playlist.xaml.cs">
       <DependentUpon>Playlist.xaml</DependentUpon>
     </Compile>
@@ -99,6 +104,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Page Include="Pages\Music\Home\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Music\Player\Player.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

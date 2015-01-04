@@ -53,13 +53,6 @@ namespace WindowsMediaPlayer.Pages.Music.Home
             }
         }
 
-        public String PlayIcon
-        {
-            get
-            {
-                return "F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z";
-            }
-        }
         private List<String> MusicPaths
         {
             get

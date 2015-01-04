@@ -36,6 +36,8 @@ namespace WindowsMediaPlayer.Media
             }
         }
 
+        public Boolean InPause { get; private set; }
+
         /// <summary>
         /// Gets or sets the volume of the media player
         /// </summary>
@@ -117,6 +119,7 @@ namespace WindowsMediaPlayer.Media
         public MediaMusic()
         {
             this.mediaPlayer = new System.Windows.Media.MediaPlayer();
+            this.InPause = true;
         }
 
         #endregion
@@ -137,9 +140,10 @@ namespace WindowsMediaPlayer.Media
         /// </summary>
         public void Play()
         {
-            if (this.HasMedia == true)
+            if (this.HasMedia == true && this.InPause == true)
             {
                 this.mediaPlayer.Play();
+                this.InPause = false;
             }
         }
 
@@ -148,9 +152,10 @@ namespace WindowsMediaPlayer.Media
         /// </summary>
         public void Stop()
         {
-            if (this.HasMedia == true)
+            if (this.HasMedia == true && this.InPause == false)
             {
                 this.mediaPlayer.Stop();
+                this.InPause = true;
             }
         }
 
@@ -159,9 +164,10 @@ namespace WindowsMediaPlayer.Media
         /// </summary>
         public void Pause()
         {
-            if (this.HasMedia == true)
+            if (this.HasMedia == true && this.InPause == false)
             {
                 this.mediaPlayer.Pause();
+                this.InPause = true;
             }
         }
 
