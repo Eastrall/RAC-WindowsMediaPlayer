@@ -35,6 +35,8 @@ namespace WindowsMediaPlayer.Pages.Music.Player
 
         private String playPauseIcon;
 
+        private Boolean changingMusicPosition;
+
         #endregion
 
         #region COMMANDS
@@ -136,6 +138,14 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             set
             {
                 this.musicCurrentPosition = Convert.ToInt32(value);
+                if (this.changingMusicPosition == true)
+                {
+                    this.changingMusicPosition = false;
+                }
+                else
+                {
+                    MediaPlayer.Instance.Audio.CurrentPosition = Convert.ToInt32(value);
+                }
                 this.OnPropertyChanged("MusicCurrentPosition");
             }
         }
@@ -172,9 +182,10 @@ namespace WindowsMediaPlayer.Pages.Music.Player
 
         public PlayerViewModel()
         {
+            this.changingMusicPosition = false;
             this.InitializeData();
             MediaPlayer.Instance.Audio.Timer = new DispatcherTimer();
-            MediaPlayer.Instance.Audio.Timer.Interval = TimeSpan.FromSeconds(0.1);
+            MediaPlayer.Instance.Audio.Timer.Interval = TimeSpan.FromSeconds(1);
             MediaPlayer.Instance.Audio.Timer.Tick += TimerTick;
             MediaPlayer.Instance.Audio.Timer.Start();
         }
@@ -209,10 +220,11 @@ namespace WindowsMediaPlayer.Pages.Music.Player
 
         private void InitializeData()
         {
+            this.PlayPauseIcon = this.PlayIcon;
             this.MusicTotalDuration = "0:00";
             this.MusicCurrentDuration = "0:00";
             this.MusicCurrentPosition = 0;
-            this.MusicTotalDurationSeconds = 0;
+            this.MusicTotalDurationSeconds = 1000;
             this.MusicVolume = MediaPlayer.Instance.Audio.Volume;
         }
 
@@ -230,8 +242,13 @@ namespace WindowsMediaPlayer.Pages.Music.Player
                 }
                 this.MusicTotalDuration = MediaPlayer.Instance.Audio.TotalDuration.ToString(@"mm\:ss");
                 this.MusicCurrentDuration = MediaPlayer.Instance.Audio.CurrentDuration.ToString(@"mm\:ss");
-                this.MusicCurrentPosition = MediaPlayer.Instance.Audio.CurrentPosition;
                 this.MusicTotalDurationSeconds = MediaPlayer.Instance.Audio.TotalSeconds;
+
+                if (this.changingMusicPosition == false)
+                {
+                    this.changingMusicPosition = true;
+                    ++this.MusicCurrentPosition;
+                }
 
                 if (this.MusicCurrentDuration == this.musicTotalDuration)
                 {
