@@ -31,6 +31,7 @@ namespace WindowsMediaPlayer
         {
             InitializeComponent();
             this.LoadConfiguration();
+            MediaPlayer.Instance.Initialize();
         }
 
         /// <summary>

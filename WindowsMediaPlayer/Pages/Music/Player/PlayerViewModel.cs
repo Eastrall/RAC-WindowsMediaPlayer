@@ -41,7 +41,9 @@ namespace WindowsMediaPlayer.Pages.Music.Player
 
         #region COMMANDS
 
-
+        /// <summary>
+        /// Play pause command handler
+        /// </summary>
         public RelayCommand PlayPauseCommand
         {
             get
@@ -54,6 +56,9 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
         }
 
+        /// <summary>
+        /// Rewind command handler
+        /// </summary>
         public RelayCommand RewindCommand
         {
             get
@@ -66,6 +71,9 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
         }
 
+        /// <summary>
+        /// Forward command handler
+        /// </summary>
         public RelayCommand ForwardCommand
         {
             get
@@ -82,6 +90,9 @@ namespace WindowsMediaPlayer.Pages.Music.Player
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Gets or set the play or pause icon
+        /// </summary>
         public String PlayPauseIcon
         {
             get
@@ -95,14 +106,9 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
         }
 
-        public Boolean CanChangeMusicPosition
-        {
-            get
-            {
-                return MediaPlayer.Instance.Audio.HasMedia;
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets the music total duration as a string
+        /// </summary>
         public String MusicTotalDuration
         {
             get
@@ -116,6 +122,9 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
         }
 
+        /// <summary>
+        /// Gets or sets the music current duration as a string
+        /// </summary>
         public String MusicCurrentDuration
         {
             get
@@ -129,27 +138,34 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
         }
 
+        /// <summary>
+        /// Gets or sets the music current position on the slider
+        /// </summary>
         public Double MusicCurrentPosition
         {
             get
             {
-                return this.musicCurrentPosition;
+                return MediaPlayer.Instance.Audio.CurrentPosition;
             }
             set
             {
-                this.musicCurrentPosition = Convert.ToInt32(value);
                 if (this.changingMusicPosition == true)
                 {
+                    this.musicCurrentPosition = Convert.ToInt32(value);
                     this.changingMusicPosition = false;
                 }
                 else
                 {
+                    this.musicCurrentPosition = Convert.ToInt32(value);
                     MediaPlayer.Instance.Audio.CurrentPosition = Convert.ToInt32(value);
                 }
                 this.OnPropertyChanged("MusicCurrentPosition");
             }
         }
 
+        /// <summary>
+        /// Gets or sets the music total duration in seconds on the slider
+        /// </summary>
         public Int32 MusicTotalDurationSeconds
         {
             get
@@ -163,6 +179,9 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
         }
 
+        /// <summary>
+        /// Gets or sets the music volume
+        /// </summary>
         public Double MusicVolume
         {
             get
@@ -180,10 +199,13 @@ namespace WindowsMediaPlayer.Pages.Music.Player
 
         #region CONSTRUCTORS
 
+        /// <summary>
+        /// Creates a new PlayerViewModel instance
+        /// </summary>
         public PlayerViewModel()
         {
-            this.changingMusicPosition = false;
             this.InitializeData();
+
             MediaPlayer.Instance.Audio.Timer = new DispatcherTimer();
             MediaPlayer.Instance.Audio.Timer.Interval = TimeSpan.FromSeconds(1);
             MediaPlayer.Instance.Audio.Timer.Tick += TimerTick;
@@ -194,17 +216,24 @@ namespace WindowsMediaPlayer.Pages.Music.Player
 
         #region METHODS
 
+        /// <summary>
+        /// Play pause action
+        /// </summary>
+        /// <param name="sender"></param>
         private void PlayPauseAction(Object sender)
         {
-            if (MediaPlayer.Instance.Audio.InPause == true)
+            if (MediaPlayer.Instance.Audio.HasMedia == true)
             {
-                MediaPlayer.Instance.Audio.Play();
-                this.PlayPauseIcon = this.PlayIcon;
-            }
-            else
-            {
-                MediaPlayer.Instance.Audio.Pause();
-                this.PlayPauseIcon = this.PauseIcon;
+                if (MediaPlayer.Instance.Audio.InPause == true)
+                {
+                    MediaPlayer.Instance.Audio.Play();
+                    this.PlayPauseIcon = this.PauseIcon;
+                }
+                else
+                {
+                    MediaPlayer.Instance.Audio.Pause();
+                    this.PlayPauseIcon = this.PlayIcon;
+                }
             }
         }
 
@@ -218,16 +247,23 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             this.UpdateData();
         }
 
+        /// <summary>
+        /// Initialize player data
+        /// </summary>
         private void InitializeData()
         {
+            this.changingMusicPosition = false;
             this.PlayPauseIcon = this.PlayIcon;
             this.MusicTotalDuration = "0:00";
             this.MusicCurrentDuration = "0:00";
             this.MusicCurrentPosition = 0;
-            this.MusicTotalDurationSeconds = 1000;
+            this.MusicTotalDurationSeconds = 1;
             this.MusicVolume = MediaPlayer.Instance.Audio.Volume;
         }
 
+        /// <summary>
+        /// Update player data each seconds
+        /// </summary>
         private void UpdateData()
         {
             if (MediaPlayer.Instance.Audio.HasMedia == true)
@@ -238,21 +274,22 @@ namespace WindowsMediaPlayer.Pages.Music.Player
                 }
                 else
                 {
+                    this.MusicTotalDuration = MediaPlayer.Instance.Audio.TotalDuration.ToString(@"mm\:ss");
+                    this.MusicCurrentDuration = MediaPlayer.Instance.Audio.CurrentDuration.ToString(@"mm\:ss");
+                    this.MusicTotalDurationSeconds = MediaPlayer.Instance.Audio.TotalSeconds;
+
+                    if (this.changingMusicPosition == false)
+                    {
+                        this.changingMusicPosition = true;
+                        this.MusicCurrentPosition = MediaPlayer.Instance.Audio.CurrentPosition;
+                    }
                     this.PlayPauseIcon = this.PauseIcon;
                 }
-                this.MusicTotalDuration = MediaPlayer.Instance.Audio.TotalDuration.ToString(@"mm\:ss");
-                this.MusicCurrentDuration = MediaPlayer.Instance.Audio.CurrentDuration.ToString(@"mm\:ss");
-                this.MusicTotalDurationSeconds = MediaPlayer.Instance.Audio.TotalSeconds;
-
-                if (this.changingMusicPosition == false)
-                {
-                    this.changingMusicPosition = true;
-                    ++this.MusicCurrentPosition;
-                }
-
+                
                 if (this.MusicCurrentDuration == this.musicTotalDuration)
                 {
                     this.PlayPauseIcon = this.PlayIcon;
+                    // pass to next
                 }
             }
             this.MusicVolume = MediaPlayer.Instance.Audio.Volume;

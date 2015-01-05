@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Timers;
@@ -42,6 +43,11 @@ namespace WindowsMediaPlayer.Media
                 return this.mediaPlayer.Source != null && this.mediaPlayer.HasAudio == true;
             }
         }
+
+        /// <summary>
+        /// Gets the music state
+        /// </summary>
+        public Boolean Ready { get; private set; }
 
         /// <summary>
         /// Check if the music is paused or not
@@ -129,6 +135,10 @@ namespace WindowsMediaPlayer.Media
         public MediaMusic()
         {
             this.mediaPlayer = new System.Windows.Media.MediaPlayer();
+            this.mediaPlayer.MediaOpened += (sender, e) =>
+            {
+                this.Ready = true;
+            };
             this.InPause = true;
         }
 
@@ -151,10 +161,10 @@ namespace WindowsMediaPlayer.Media
         /// </summary>
         public void Play()
         {
-            if (this.HasMedia == true && this.InPause == true)
+            if (this.InPause == true)
             {
-                this.mediaPlayer.Play();
                 this.InPause = false;
+                this.mediaPlayer.Play();
             }
         }
 
@@ -163,7 +173,7 @@ namespace WindowsMediaPlayer.Media
         /// </summary>
         public void Stop()
         {
-            if (this.HasMedia == true && this.InPause == false)
+            if (this.InPause == false)
             {
                 this.mediaPlayer.Stop();
                 this.InPause = true;
@@ -175,7 +185,7 @@ namespace WindowsMediaPlayer.Media
         /// </summary>
         public void Pause()
         {
-            if (this.HasMedia == true && this.InPause == false)
+            if (this.InPause == false)
             {
                 this.mediaPlayer.Pause();
                 this.InPause = true;

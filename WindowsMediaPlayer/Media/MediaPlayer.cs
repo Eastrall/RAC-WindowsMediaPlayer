@@ -65,6 +65,12 @@ namespace WindowsMediaPlayer
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Initialize MediaPlayer
+        /// </summary>
+        public void Initialize() { }
+
         #endregion
     }
 }

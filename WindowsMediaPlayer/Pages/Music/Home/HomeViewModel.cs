@@ -9,6 +9,7 @@ using System.IO;
 using WindowsMediaPlayer.Serializer;
 using FirstFloor.ModernUI.Windows.Controls;
 using System.Windows.Controls;
+using System.Threading;
 
 /*--------------------------------------------------------
  * HomeViewModel.cs - file description
