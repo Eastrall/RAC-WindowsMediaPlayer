@@ -289,10 +289,18 @@ namespace WindowsMediaPlayer.Pages.Music.Player
                 if (this.MusicCurrentDuration == this.musicTotalDuration)
                 {
                     this.PlayPauseIcon = this.PlayIcon;
-                    // pass to next
+                    this.NextSong();
                 }
             }
             this.MusicVolume = MediaPlayer.Instance.Audio.Volume;
+        }
+
+        /// <summary>
+        /// Next song
+        /// </summary>
+        private void NextSong()
+        {
+            // TODO: random 
         }
 
         #endregion

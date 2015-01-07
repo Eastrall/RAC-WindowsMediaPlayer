@@ -15,15 +15,12 @@
         <mui:LinkGroup DisplayName="Vidéos">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Wireframe" Source="/Pages/LayoutWireframe.xaml" />
-                <mui:Link DisplayName="Basic" Source="/Pages/LayoutBasic.xaml" />
-                <mui:Link DisplayName="Split" Source="/Pages/LayoutSplit.xaml" />
-                <mui:Link DisplayName="List" Source="/Pages/LayoutList.xaml"  />
-                <mui:Link DisplayName="Tab" Source="/Pages/LayoutTab.xaml" />
+                
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
-        <mui:LinkGroup DisplayName="settings" GroupKey="settings">
+        <mui:LinkGroup DisplayName="Paramètres" GroupKey="settings">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="software" Source="/Pages/SettingsPage.xaml" />
+                <mui:Link DisplayName="configuration générale" Source="/Pages/SettingsPage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
     </mui:ModernWindow.MenuLinkGroups>

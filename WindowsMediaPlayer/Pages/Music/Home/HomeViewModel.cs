@@ -102,8 +102,7 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
                     this.dialog.Title = "Selectionnez les musiques à ajouter";
                     this.dialog.Multiselect = true;
-                    this.dialog.Filter =
-        "Musiques (*.mp3;*.wav)|*.mp3;*.wav";
+                    this.dialog.Filter = "Musiques (*.mp3;*.wav)|*.mp3;*.wav";
                 }
                 return this.dialog;
             }
@@ -136,14 +135,28 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                 {
                     if (File.Exists(filename))
                     {
-                        MusicModel _toAdd = new MusicModel(filename);
-                        if (Exists(filename) == false)
+                        MusicModel _toAdd = null;
+                        try
                         {
-                            this.MusicPaths.Add(filename);
-                            this.Musics.Add(_toAdd);
+                            _toAdd = new MusicModel(filename);
+                            if (Exists(filename) == false)
+                            {
+                                this.MusicPaths.Add(filename);
+                                this.Musics.Add(_toAdd);
+                            }
+                            else
+                                _notAdded += _toAdd.Title + " de " + _toAdd.Artist + "\n";
                         }
-                        else
-                            _notAdded += _toAdd.Title + " de " + _toAdd.Artist + "\n";
+                        catch
+                        {
+                            var _dlg = new ModernDialog
+                            {
+                                Title = "Erreur",
+                                Content = "Impossible d'ajouter le fichier audio " + filename.ToString().Split('\\').Last().ToString() + " car celui-ci est corrompu."
+                            };
+                            _dlg.Buttons = new Button[] { _dlg.OkButton };
+                            _dlg.ShowDialog();
+                        }
                     }
                 }
                 this.SaveMusics();
@@ -191,7 +204,24 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                 {
                     if (File.Exists(path))
                     {
-                        MusicModel _music = new MusicModel(path);
+                        MusicModel _music = null; 
+
+                        try
+                        {
+                            _music = new MusicModel(path);
+                        }
+                        catch
+                        {
+                            var _dlg = new ModernDialog
+                            {
+                                Title = "Erreur",
+                                Content = "Le fichier " + path.Split('\\').Last().ToString() + " est corrompu."
+                            };
+                            _dlg.Buttons = new Button[] { _dlg.OkButton };
+                            _dlg.ShowDialog();
+                            _removedFiles.Add(path);
+                            continue;
+                        }
                         this.Musics.Add(_music);
                     }
                     else
