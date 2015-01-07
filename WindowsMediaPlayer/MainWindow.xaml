@@ -14,7 +14,7 @@
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="Vidéos">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Wireframe" Source="/Pages/LayoutWireframe.xaml" />
+                <mui:Link DisplayName="home" Source="/Pages/Video/Home/HomeVideo.xaml" />
                 
             </mui:LinkGroup.Links>
         </mui:LinkGroup>

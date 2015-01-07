@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="WindowsMediaPlayer.Pages.Video.Home.HomeVideo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:viewmodel="clr-namespace:WindowsMediaPlayer.Pages.Video.Home"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <viewmodel:HomeVideoViewModel></viewmodel:HomeVideoViewModel>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <PathGeometry x:Key="plusIcon">F1M35,19L41,19 41,35 57,35 57,41 41,41 41,57 35,57 35,41 19,41 19,35 35,35 35,19z</PathGeometry>
+    </UserControl.Resources>
+
+    <Grid Style="{StaticResource ContentRoot}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0">
+            <StackPanel MinWidth="200">
+                <TextBlock Style="{StaticResource Heading2}" >TOUTES LES VIDEOS</TextBlock>
+                <mui:ModernButton Width="Auto" Command="{Binding AddVideoButton}" Content="ajouter des vidéos" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="{StaticResource plusIcon}"/>
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer Grid.Row="1">
+            <mui:ModernTab Layout="List">
+                <mui:ModernTab.Links>
+                    <!-- TODO: set @Source -->
+                    <mui:Link DisplayName="Item 1" />
+                    <mui:Link DisplayName="Item 2" />
+                </mui:ModernTab.Links>
+            </mui:ModernTab>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

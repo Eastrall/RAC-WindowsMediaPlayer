@@ -99,6 +99,10 @@
     </Compile>
     <Compile Include="Pages\Settings\AppearanceModel.cs" />
     <Compile Include="Pages\Settings\AppearanceViewModel.cs" />
+    <Compile Include="Pages\Video\Home\HomeVideo.xaml.cs">
+      <DependentUpon>HomeVideo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Video\Home\HomeVideoViewModel.cs" />
     <Compile Include="Serializer\XmlSerializer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -137,13 +141,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\Video\Home\HomeVideo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Video\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
