@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:viewmodel="clr-namespace:WindowsMediaPlayer.Pages.Video.Home"
+             xmlns:behaviors="clr-namespace:WindowsMediaPlayer.MVVM"
+             xmlns:tools="clr-namespace:WindowsMediaPlayer.General"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -13,15 +16,36 @@
     </UserControl.DataContext>
     
     <UserControl.Resources>
-        
+        <tools:PositionToValueConverter x:Key="positionToValueConverter"/>
+        <tools:PositionToTextConverter x:Key="positionToTextConverter" />
+        <tools:FloatToTextConverter x:Key="floatToTextConverter" />
     </UserControl.Resources>
     
-    <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="BASIC PAGE" Style="{StaticResource Heading2}" />
-                <TextBlock Text="Content goes here" />
-            </StackPanel>
-        </ScrollViewer>
+    <Grid Style="{StaticResource ContentRoot}" Margin="16,0,16,16">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left" MinWidth="200" MinHeight="200" MaxWidth="968" >
+            <MediaElement Name="mediaElement" Source="{Binding Source}" Stretch="Fill" HorizontalAlignment="Left">
+                <i:Interaction.Behaviors>
+                    <behaviors:SliderBehavior x:Name="sliderDP"/>
+                </i:Interaction.Behaviors>
+            </MediaElement>
+        </StackPanel>
+        <DockPanel Grid.Row="1">
+            <DockPanel>
+                <mui:ModernButton Margin="5,0,5,0" Name="PLAY" EllipseDiameter="32" IconWidth="20" IconHeight="20" HorizontalAlignment="Left" IconData="{Binding PlayPauseIcon}" Command="{Binding PlayPauseCommand}"></mui:ModernButton>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+                <TextBlock Margin="0,7,5,7" Text="{Binding ElementName=sliderDP, Path=Position, Converter={StaticResource positionToTextConverter}, ConverterParameter=mediaElement}" DockPanel.Dock="Left"></TextBlock>
+                <TextBlock Margin="5,7,0,7" Text="{Binding ElementName=sliderDP, Path=Maximum, Converter={StaticResource floatToTextConverter}, ConverterParameter=mediaElement}" DockPanel.Dock="Right"></TextBlock>
+                <Slider x:Name="SeekSlider" Minimum="0"
+                    Maximum="{Binding ElementName=sliderDP, Path=Maximum}"
+                    VerticalAlignment="Stretch"
+                    Value="{Binding ElementName=sliderDP, Path=Position, Converter={StaticResource positionToValueConverter}, ConverterParameter=mediaElement, Mode=TwoWay}"></Slider>
+            </DockPanel>
+        </DockPanel>
     </Grid>
 </UserControl>

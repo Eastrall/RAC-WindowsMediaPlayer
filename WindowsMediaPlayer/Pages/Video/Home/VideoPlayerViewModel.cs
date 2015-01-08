@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FirstFloor.ModernUI.Presentation;
 
 /*--------------------------------------------------------
  * VideoPlayerViewModel.cs - file description
@@ -15,18 +16,50 @@ using System.Text;
 
 namespace WindowsMediaPlayer.Pages.Video.Home
 {
-    public class VideoPlayerViewModel
+    public class VideoPlayerViewModel : NotifyPropertyChanged
     {
         #region FIELDS
+
+        private String playPauseIcon;
+        private String source;
+
         #endregion
 
         #region PROPERTIES
+
+        public String PlayPauseIcon
+        {
+            get
+            {
+                return this.playPauseIcon;
+            }
+            set
+            {
+                this.playPauseIcon = value;
+                this.OnPropertyChanged("PlayPauseIcon");
+            }
+        }
+
+        public String Source
+        {
+            get
+            {
+                return source;
+            }
+            set
+            {
+                this.source = value;
+                this.OnPropertyChanged("Source");
+            }
+        }
+
         #endregion
 
         #region CONSTRUCTORS
 
         public VideoPlayerViewModel()
         {
+            this.PlayPauseIcon = Constants.PLAY_ICON;
         }
 
         #endregion

@@ -21,9 +21,6 @@ namespace WindowsMediaPlayer.Pages.Music.Player
     {
         #region FIELDS
 
-        private readonly String PlayIcon = "F1 M 30.0833,22.1667L 50.6665,37.6043L 50.6665,38.7918L 30.0833,53.8333L 30.0833,22.1667 Z";
-        private readonly String PauseIcon = "F1 M 26.9167,23.75L 33.25,23.75L 33.25,52.25L 26.9167,52.25L 26.9167,23.75 Z M 42.75,23.75L 49.0833,23.75L 49.0833,52.25L 42.75,52.25L 42.75,23.75 Z";
-
         private RelayCommand playPauseCommand;
         private RelayCommand rewindCommand;
         private RelayCommand forwardCommand;
@@ -227,12 +224,12 @@ namespace WindowsMediaPlayer.Pages.Music.Player
                 if (MediaPlayer.Instance.Audio.InPause == true)
                 {
                     MediaPlayer.Instance.Audio.Play();
-                    this.PlayPauseIcon = this.PauseIcon;
+                    this.PlayPauseIcon = Constants.PAUSE_ICON;
                 }
                 else
                 {
                     MediaPlayer.Instance.Audio.Pause();
-                    this.PlayPauseIcon = this.PlayIcon;
+                    this.PlayPauseIcon = Constants.PLAY_ICON;
                 }
             }
         }
@@ -253,7 +250,7 @@ namespace WindowsMediaPlayer.Pages.Music.Player
         private void InitializeData()
         {
             this.changingMusicPosition = true;
-            this.PlayPauseIcon = this.PlayIcon;
+            this.PlayPauseIcon = Constants.PLAY_ICON;
             this.MusicTotalDuration = "0:00";
             this.MusicCurrentDuration = "0:00";
             this.MusicCurrentPosition = 0;
@@ -270,7 +267,7 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             {
                 if (MediaPlayer.Instance.Audio.InPause == true)
                 {
-                    this.PlayPauseIcon = this.PlayIcon;
+                    this.PlayPauseIcon = Constants.PLAY_ICON;
                 }
                 else
                 {
@@ -283,12 +280,12 @@ namespace WindowsMediaPlayer.Pages.Music.Player
                         this.changingMusicPosition = true;
                         this.MusicCurrentPosition = MediaPlayer.Instance.Audio.CurrentPosition;
                     }
-                    this.PlayPauseIcon = this.PauseIcon;
+                    this.PlayPauseIcon = Constants.PAUSE_ICON;
                 }
                 
                 if (this.MusicCurrentDuration == this.musicTotalDuration)
                 {
-                    this.PlayPauseIcon = this.PlayIcon;
+                    this.PlayPauseIcon = Constants.PLAY_ICON;
                     this.NextSong();
                 }
             }
