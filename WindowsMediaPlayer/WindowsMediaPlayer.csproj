@@ -68,8 +68,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="General\Constants.cs" />
+    <Compile Include="General\Converter.cs" />
+    <Compile Include="Media\MediaCollection.cs" />
     <Compile Include="Media\MediaMusic.cs" />
     <Compile Include="Media\MediaPlayer.cs" />
+    <Compile Include="MVVM\SliderBehavior.cs" />
     <Compile Include="Pages\Music\Home\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>

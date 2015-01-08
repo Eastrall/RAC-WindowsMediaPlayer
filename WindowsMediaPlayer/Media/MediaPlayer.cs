@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using WindowsMediaPlayer.Media;
@@ -70,6 +71,16 @@ namespace WindowsMediaPlayer
         /// Initialize MediaPlayer
         /// </summary>
         public void Initialize() { }
+
+        /// <summary>
+        /// Check if the path pass as parameter is a media
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public Boolean IsMedia(String path)
+        {
+            return Constants.MEDIA_EXTENSIONS.Contains(Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
+        }
 
         #endregion
     }

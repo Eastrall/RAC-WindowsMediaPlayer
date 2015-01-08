@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
-        <viewmodel:HomeVideoViewModel></viewmodel:HomeVideoViewModel>
+        <viewmodel:HomeVideoViewModel />
     </UserControl.DataContext>
 
     <UserControl.Resources>
@@ -24,14 +24,13 @@
         <ScrollViewer Grid.Row="0">
             <StackPanel MinWidth="200">
                 <TextBlock Style="{StaticResource Heading2}" >TOUTES LES VIDEOS</TextBlock>
-                <mui:ModernButton Width="Auto" Command="{Binding}" Content="ajouter des vidéos" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="{StaticResource plusIcon}"/>
+                <mui:ModernButton Width="Auto" Command="{Binding AddVideoCommand}" Content="ajouter des vidéos" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="{StaticResource plusIcon}"/>
             </StackPanel>
         </ScrollViewer>
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
-                <mui:ModernTab Layout="List" Links="{Binding VideosList}">
-                </mui:ModernTab>
-            </StackPanel>
+        <ScrollViewer Grid.Row="1" FlowDirection="RightToLeft" CanContentScroll="False" VerticalScrollBarVisibility="Auto">
+            <mui:ModernTab Layout="List" Links="{Binding VideosList}" FlowDirection="LeftToRight" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
+                
+            </mui:ModernTab>
         </ScrollViewer>
     </Grid>
 </UserControl>
