@@ -252,7 +252,7 @@ namespace WindowsMediaPlayer.Pages.Music.Player
         /// </summary>
         private void InitializeData()
         {
-            this.changingMusicPosition = false;
+            this.changingMusicPosition = true;
             this.PlayPauseIcon = this.PlayIcon;
             this.MusicTotalDuration = "0:00";
             this.MusicCurrentDuration = "0:00";
