@@ -103,6 +103,10 @@
       <DependentUpon>HomeVideo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Video\Home\HomeVideoViewModel.cs" />
+    <Compile Include="Pages\Video\Home\VideoPlayer.xaml.cs">
+      <DependentUpon>VideoPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Video\Home\VideoPlayerViewModel.cs" />
     <Compile Include="Serializer\XmlSerializer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +146,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Video\Home\HomeVideo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Video\Home\VideoPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

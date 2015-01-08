@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirstFloor.ModernUI.Presentation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,12 @@ using System.Text;
 
 namespace WindowsMediaPlayer.Pages.Video.Home
 {
-    public class HomeVideoViewModel
+    public class HomeVideoViewModel : NotifyPropertyChanged
     {
         #region FIELDS
+
+        public LinkCollection VideosList { get; private set; }
+
         #endregion
 
         #region PROPERTIES
@@ -27,6 +31,14 @@ namespace WindowsMediaPlayer.Pages.Video.Home
 
         public HomeVideoViewModel()
         {
+            this.VideosList = new LinkCollection();
+            for (int i = 0; i < 20; i++)
+            {
+                this.VideosList.Add(new Link()
+                    {
+                        DisplayName = "Test " + i.ToString()
+                    });
+            }
         }
 
         #endregion
