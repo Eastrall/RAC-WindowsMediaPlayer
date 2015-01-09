@@ -90,6 +90,8 @@ namespace WindowsMediaPlayer.Pages.Video.Home
         /// </summary>
         private void LoadVideos()
         {
+            List<String> _removedVideos = new List<String>();
+
             if (File.Exists(Constants.VIDEOS_FILE) == false)
             {
                 return;
@@ -104,7 +106,23 @@ namespace WindowsMediaPlayer.Pages.Video.Home
             {
                 foreach (Video video in _videos.Videos)
                 {
-                    this.AddFileToTab(video.Path);
+                    if (File.Exists(video.Path) == false)
+                    {
+                        _removedVideos.Add(video.Path);
+                    }
+                    else
+                    {
+                        this.AddFileToTab(video.Path);
+                    }
+                }
+                foreach (String file in _removedVideos)
+                {
+                    Video _video = _videos.Videos.Find((vid => { return vid.Path == file; }));
+                    _videos.Videos.Remove(_video);
+                }
+                if (_removedVideos.Count > 0)
+                {
+                    XmlSerializer.Serialize<VideoModel>(_videos, Constants.VIDEOS_FILE);
                 }
             }
         }
