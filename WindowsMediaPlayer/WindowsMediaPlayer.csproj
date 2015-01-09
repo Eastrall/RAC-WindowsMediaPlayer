@@ -106,6 +106,7 @@
       <DependentUpon>HomeVideo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Video\Home\HomeVideoViewModel.cs" />
+    <Compile Include="Pages\Video\Home\VideoModel.cs" />
     <Compile Include="Pages\Video\Home\VideoPlayer.xaml.cs">
       <DependentUpon>VideoPlayer.xaml</DependentUpon>
     </Compile>

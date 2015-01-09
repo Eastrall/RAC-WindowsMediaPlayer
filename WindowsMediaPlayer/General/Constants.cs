@@ -17,9 +17,10 @@ namespace WindowsMediaPlayer
 {
     public class Constants
     {
-        public const String CONFIGURATION_FILE = "config.xml";
-        public const String MUSICS_FILE = "musics.xml";
-        public const String PLAYLISTS_FILE = "playlists.xml";
+        public const String CONFIGURATION_FILE = "Data\\config.xml";
+        public const String MUSICS_FILE = "Data\\musics.xml";
+        public const String PLAYLISTS_FILE = "Data\\playlists.xml";
+        public const String VIDEOS_FILE = "Data\\videos.xml";
 
         public static readonly String[] MEDIA_EXTENSIONS = new String[] {
                 ".PNG", ".JPG", ".JPEG", ".BMP", ".GIF", //etc

@@ -2,8 +2,10 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using WindowsMediaPlayer.Serializer;
 
 /*--------------------------------------------------------
  * HomeVideoViewModel.cs - file description
@@ -29,7 +31,9 @@ namespace WindowsMediaPlayer.Pages.Video.Home
 
         #region PROPERTIES
 
-
+        /// <summary>
+        /// Gets or sets the VideoList links
+        /// </summary>
         public LinkCollection VideosList
         {
             get
@@ -47,6 +51,9 @@ namespace WindowsMediaPlayer.Pages.Video.Home
             }
         }
 
+        /// <summary>
+        /// Add a new video
+        /// </summary>
         public RelayCommand AddVideoCommand
         {
             get
@@ -83,6 +90,23 @@ namespace WindowsMediaPlayer.Pages.Video.Home
         /// </summary>
         private void LoadVideos()
         {
+            if (File.Exists(Constants.VIDEOS_FILE) == false)
+            {
+                return;
+            }
+            StreamReader _reader = new StreamReader(Constants.VIDEOS_FILE);
+            VideoModel _videos = XmlSerializer.Deserialize<VideoModel>(_reader);
+
+            _reader.Close();
+            _reader.Dispose();
+
+            if (_videos != null)
+            {
+                foreach (Video video in _videos.Videos)
+                {
+                    this.AddFileToTab(video.Path);
+                }
+            }
         }
 
         /// <summary>
@@ -90,6 +114,18 @@ namespace WindowsMediaPlayer.Pages.Video.Home
         /// </summary>
         private void SaveVideos()
         {
+            VideoModel _videos = new VideoModel();
+
+            this.VideosList.ToList().ForEach((link) =>
+            {
+                String _path = link.Source.OriginalString.Split(new Char[] { '#' }).Last();
+                _videos.Videos.Add(new Video()
+                    {
+                        Path = _path,
+                        Name = _path.Split('\\').Last()
+                    });
+            });
+            XmlSerializer.Serialize<VideoModel>(_videos, Constants.VIDEOS_FILE);
         }
 
         /// <summary>
@@ -113,6 +149,7 @@ namespace WindowsMediaPlayer.Pages.Video.Home
                     }
                 }
             }
+            this.SaveVideos();
         }
 
         private void AddFileToTab(String path)

@@ -39,6 +39,10 @@ namespace WindowsMediaPlayer
         /// </summary>
         private void LoadConfiguration()
         {
+            if (Directory.Exists("Data") == false)
+            {
+                Directory.CreateDirectory("Data");
+            }
             if (File.Exists(Constants.CONFIGURATION_FILE) == false)
             {
                 return;
