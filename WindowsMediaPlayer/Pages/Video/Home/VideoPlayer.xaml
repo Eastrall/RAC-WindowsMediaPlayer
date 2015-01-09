@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" HorizontalAlignment="Left" MinWidth="200" MinHeight="200" MaxWidth="968" >
-            <MediaElement Name="mediaElement" Source="{Binding Source}" Stretch="Fill" HorizontalAlignment="Left">
+            <MediaElement Name="mediaElement" Source="{Binding Source}" Stretch="Fill" HorizontalAlignment="Left" LoadedBehavior="Manual">
                 <i:Interaction.Behaviors>
                     <behaviors:SliderBehavior x:Name="sliderDP"/>
                 </i:Interaction.Behaviors>
@@ -36,7 +36,7 @@
         </StackPanel>
         <DockPanel Grid.Row="1">
             <DockPanel>
-                <mui:ModernButton Margin="5,0,5,0" Name="PLAY" EllipseDiameter="32" IconWidth="20" IconHeight="20" HorizontalAlignment="Left" IconData="{Binding PlayPauseIcon}" Command="{Binding PlayPauseCommand}"></mui:ModernButton>
+                <mui:ModernButton Margin="5,0,5,0" Name="PLAY" EllipseDiameter="32" IconWidth="20" IconHeight="20" HorizontalAlignment="Left" IconData="{Binding PlayPauseIcon}" Command="{Binding PlayPauseCommand}" CommandParameter="{Binding ElementName=mediaElement}"></mui:ModernButton>
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
                 <TextBlock Margin="0,7,5,7" Text="{Binding ElementName=sliderDP, Path=Position, Converter={StaticResource positionToTextConverter}, ConverterParameter=mediaElement}" DockPanel.Dock="Left"></TextBlock>

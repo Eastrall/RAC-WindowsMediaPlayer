@@ -13,6 +13,7 @@ namespace WindowsMediaPlayer.Pages.Video.Home
         public VideoPlayer()
         {
             InitializeComponent();
+            this.mediaElement.Play();
         }
 
         public void OnFragmentNavigation(FirstFloor.ModernUI.Windows.Navigation.FragmentNavigationEventArgs e)
@@ -27,10 +28,5 @@ namespace WindowsMediaPlayer.Pages.Video.Home
         public void OnNavigatedTo(FirstFloor.ModernUI.Windows.Navigation.NavigationEventArgs e) { }
 
         public void OnNavigatingFrom(FirstFloor.ModernUI.Windows.Navigation.NavigatingCancelEventArgs e) { }
-
-        private void SoundSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
-        {
-
-        }
     }
 }
