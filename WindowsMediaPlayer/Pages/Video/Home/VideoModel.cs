@@ -15,12 +15,6 @@ using System.Text;
 
 namespace WindowsMediaPlayer.Pages.Video.Home
 {
-    public struct Video
-    {
-        public String Name;
-        public String Path;
-    }
-
     public class VideoModel
     {
         #region FIELDS
@@ -28,15 +22,36 @@ namespace WindowsMediaPlayer.Pages.Video.Home
 
         #region PROPERTIES
 
-        public List<Video> Videos;
+        /// <summary>
+        /// Gets or sets the Video name
+        /// </summary>
+        public String Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the video path
+        /// </summary>
+        public String Path { get; set; }
 
         #endregion
 
         #region CONSTRUCTORS
 
+        /// <summary>
+        /// Creates an instance of VideoModel
+        /// </summary>
         public VideoModel()
         {
-            this.Videos = new List<Video>();
+        }
+
+        /// <summary>
+        /// Creates an instance of VideoModel with video name and path
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="path"></param>
+        public VideoModel(String name, String path)
+        {
+            this.Name = name;
+            this.Path = path;
         }
 
         #endregion

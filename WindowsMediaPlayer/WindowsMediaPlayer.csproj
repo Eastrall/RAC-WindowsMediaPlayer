@@ -108,10 +108,10 @@
     </Compile>
     <Compile Include="Pages\Video\Home\HomeVideoViewModel.cs" />
     <Compile Include="Pages\Video\Home\VideoModel.cs" />
-    <Compile Include="Pages\Video\Home\VideoPlayer.xaml.cs">
+    <Compile Include="Pages\Video\Player\VideoPlayer.xaml.cs">
       <DependentUpon>VideoPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Video\Home\VideoPlayerViewModel.cs" />
+    <Compile Include="Pages\Video\Player\VideoPlayerViewModel.cs" />
     <Compile Include="Serializer\XmlSerializer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -154,7 +154,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Video\Home\VideoPlayer.xaml">
+    <Page Include="Pages\Video\Player\VideoPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

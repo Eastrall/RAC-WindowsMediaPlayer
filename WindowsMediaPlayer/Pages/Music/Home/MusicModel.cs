@@ -46,13 +46,26 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         /// <param name="path"></param>
         public MusicModel(String path)
         {
+            this.Path = path;
+            this.RefreshData();
+        }
+
+        #endregion
+
+        #region METHODS
+
+        /// <summary>
+        /// Refresh Music data
+        /// </summary>
+        public void RefreshData()
+        {
             TagLib.File fileinfos;
 
-            fileinfos = TagLib.File.Create(path);
+            fileinfos = TagLib.File.Create(this.Path);
             this.Title = fileinfos.Tag.Title;
             if (String.IsNullOrEmpty(this.Title) == true)
             {
-                this.Title = path.Split('\\').Last();
+                this.Title = this.Path.Split('\\').Last();
             }
             this.Artist = fileinfos.Tag.FirstAlbumArtist;
             if (String.IsNullOrEmpty(this.Artist) == true)
@@ -65,12 +78,8 @@ namespace WindowsMediaPlayer.Pages.Music.Home
             {
                 this.Album = "Album inconnu";
             }
-            this.Path = path;
         }
 
-        #endregion
-
-        #region METHODS
         #endregion
     }
 }

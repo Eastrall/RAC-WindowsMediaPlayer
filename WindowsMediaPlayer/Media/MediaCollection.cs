@@ -21,13 +21,24 @@ namespace WindowsMediaPlayer.Media
     public class MediaCollection<T>
     {
         #region FIELDS
+
+        public delegate void MediaCollectionEventHandler(Object sender);
+
         #endregion
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Gets or sets the MediaCollection<T> content
+        /// </summary>
         public ObservableCollection<T> Content { get; set; }
 
+        /// <summary>
+        /// Gets the MediaCollection<T> path
+        /// </summary>
         public String Path { get; private set; }
+
+        public event MediaCollectionEventHandler OnLoaded;
 
         #endregion
 
@@ -47,17 +58,28 @@ namespace WindowsMediaPlayer.Media
 
         #region METHODS
 
+        /// <summary>
+        /// Load a MediaCollection<T> from the mediaCollectionPath
+        /// </summary>
         public void Load()
         {
             if (File.Exists(this.Path) == false)
             {
                 return;
             }
-            StreamReader _reader = new StreamReader(this.Path);
-
-            this.Content = XmlSerializer.Deserialize<ObservableCollection<T>>(_reader);
+            using (StreamReader _reader = new StreamReader(this.Path))
+            {
+                this.Content = XmlSerializer.Deserialize<ObservableCollection<T>>(_reader);
+            }
+            if (this.OnLoaded != null)
+            {
+                this.OnLoaded(this);
+            }
         }
 
+        /// <summary>
+        /// Save a MediaCollection<T> in the mediaCollectionPath
+        /// </summary>
         public void Save()
         {
             XmlSerializer.Serialize<ObservableCollection<T>>(this.Content, this.Path);

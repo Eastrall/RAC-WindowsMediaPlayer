@@ -112,6 +112,7 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         public HomeViewModel()
         {
             this.mediaCollection = new MediaCollection<MusicModel>(Constants.MUSICS_FILE);
+            this.mediaCollection.OnLoaded += mediaCollection_OnLoaded;
             this.mediaCollection.Load();
         }
 
@@ -178,10 +179,13 @@ namespace WindowsMediaPlayer.Pages.Music.Home
             try
             {
                 _toAdd = new MusicModel(path);
-                if (this.Musics.FirstOrDefault((musicPath) => { return musicPath.Path == path; }) == null)
+                if (this.Musics != null)
                 {
-                    this.Musics.Add(_toAdd);
-                    this.OnPropertyChanged("Musics");
+                    if (this.Musics.FirstOrDefault((musicPath) => { return musicPath.Path == path; }) == null)
+                    {
+                        this.Musics.Add(_toAdd);
+                        this.OnPropertyChanged("Musics");
+                    }
                 }
             }
             catch (Exception e)
@@ -206,6 +210,21 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
             MediaPlayer.Instance.Audio.Load(_music.Path);
             MediaPlayer.Instance.Audio.Play();
+        }
+
+        /// <summary>
+        /// Event fired when media collection finish loading data
+        /// </summary>
+        /// <param name="sender"></param>
+        private void mediaCollection_OnLoaded(Object sender)
+        {
+            if (this.mediaCollection.Content != null)
+            {
+                foreach (MusicModel music in this.mediaCollection.Content)
+                {
+                    music.RefreshData();
+                }
+            }
         }
 
         #endregion

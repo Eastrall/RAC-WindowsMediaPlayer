@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:viewmodel="clr-namespace:WindowsMediaPlayer.Pages.Video.Home"
+             xmlns:behaviors="clr-namespace:WindowsMediaPlayer.MVVM"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
@@ -27,7 +28,7 @@
                 <mui:ModernButton Width="Auto" Command="{Binding AddVideoCommand}" Content="ajouter des vidéos" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="{StaticResource plusIcon}"/>
             </StackPanel>
         </ScrollViewer>
-        <ScrollViewer Grid.Row="1" FlowDirection="RightToLeft" CanContentScroll="False" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" FlowDirection="RightToLeft" CanContentScroll="False" VerticalScrollBarVisibility="Auto" AllowDrop="True" behaviors:DragDropBehaviour.DropCommand="{Binding AddVideoDropCommand}">
             <mui:ModernTab Layout="List" Links="{Binding VideosList}" FlowDirection="LeftToRight" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
                 
             </mui:ModernTab>
