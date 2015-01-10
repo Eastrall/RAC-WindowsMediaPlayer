@@ -10,6 +10,8 @@ using WindowsMediaPlayer.Serializer;
 using FirstFloor.ModernUI.Windows.Controls;
 using System.Windows.Controls;
 using System.Threading;
+using System.Windows;
+using WindowsMediaPlayer.Media;
 
 /*--------------------------------------------------------
  * HomeViewModel.cs - file description
@@ -27,84 +29,76 @@ namespace WindowsMediaPlayer.Pages.Music.Home
     {
         #region FIELDS
 
-        private ObservableCollection<MusicModel> musics;
+        private MediaCollection<MusicModel> mediaCollection;
 
-        private List<String> musicPaths;
+        private RelayCommand addMusicButtonCommand;
 
-        private RelayCommand addMusicButton;
+        private RelayCommand addMusicDropCommand;
 
-        private RelayCommand playMusic;
-
-        private OpenFileDialog dialog;
+        private RelayCommand playMusicCommand;
 
         #endregion
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Gets or sets the Musics
+        /// </summary>
         public ObservableCollection<MusicModel> Musics
         {
             get
             {
-                if (this.musics == null)
-                    this.musics = new ObservableCollection<MusicModel>();
-                return this.musics;
+                return this.mediaCollection.Content;
             }
             set
             {
-                this.musics = value;
+                this.mediaCollection.Content = value;
                 this.OnPropertyChanged("Musics");
             }
         }
 
-        private List<String> MusicPaths
+        /// <summary>
+        /// Add music by button command
+        /// </summary>
+        public RelayCommand AddMusicButtonCommand
         {
             get
             {
-                if (this.musicPaths == null)
-                    this.musicPaths = new List<String>();
-                return this.musicPaths;
-            }
-            set
-            {
-                this.musicPaths = value;
-            }
-        }
-
-        public RelayCommand AddMusicButton
-        {
-            get
-            {
-                if (this.addMusicButton == null)
-                    this.addMusicButton = new RelayCommand((sender) => { this.onAddMusic(sender); });
-                return this.addMusicButton;
-            }
-        }
-
-        public RelayCommand PlayMusic
-        {
-            get
-            {
-                if (this.playMusic == null)
+                if (this.addMusicButtonCommand == null)
                 {
-                    this.playMusic = new RelayCommand((param) => { this.PlayMusicAction(param); });
+                    this.addMusicButtonCommand = new RelayCommand((sender) => { this.AddMusicButtonCommandAction(sender); });
                 }
-                return this.playMusic;
+                return this.addMusicButtonCommand;
             }
         }
 
-        public OpenFileDialog Dialog
+        /// <summary>
+        /// Add music by drop command
+        /// </summary>
+        public RelayCommand AddMusicDropCommand
         {
             get
             {
-                if (this.dialog == null)
+                if (this.addMusicDropCommand == null)
                 {
-                    this.dialog = new OpenFileDialog();
-
-                    this.dialog.Title = "Selectionnez les musiques à ajouter";
-                    this.dialog.Multiselect = true;
-                    this.dialog.Filter = "Musiques (*.mp3;*.wav)|*.mp3;*.wav";
+                    this.addMusicDropCommand = new RelayCommand((param) => { this.AddMusicDropCommandAction(param); });
                 }
-                return this.dialog;
+                return this.addMusicDropCommand;
+            }
+        }
+
+        /// <summary>
+        /// Play music command
+        /// </summary>
+        public RelayCommand PlayMusicCommand
+        {
+            get
+            {
+                if (this.playMusicCommand == null)
+                {
+                    this.playMusicCommand = new RelayCommand((param) => { this.PlayMusicCommandAction(param); });
+                }
+                return this.playMusicCommand;
             }
         }
 
@@ -117,137 +111,96 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         /// </summary>
         public HomeViewModel()
         {
-            LoadMusics();
+            this.mediaCollection = new MediaCollection<MusicModel>(Constants.MUSICS_FILE);
+            this.mediaCollection.Load();
         }
 
         #endregion
 
         #region METHODS
 
-        void onAddMusic(Object sender)
+        /// <summary>
+        /// Add a music to the media library when user clicks on the "Add" button
+        /// </summary>
+        /// <param name="sender"></param>
+        private void AddMusicButtonCommandAction(Object sender)
         {
-            String _notAdded = "";
+            OpenFileDialog _openFileDialog = new OpenFileDialog();
 
-            this.LoadMusics();
-            if (Dialog.ShowDialog() == true)
+            _openFileDialog.Title = "Selectionnez les musiques à ajouter";
+            _openFileDialog.Multiselect = true;
+            _openFileDialog.Filter = "Musiques (*.mp3;*.wav)|*.mp3;*.wav";
+            this.mediaCollection.Load();
+            if (_openFileDialog.ShowDialog() == true)
             {
-                foreach (String filename in Dialog.FileNames)
+                foreach (String path in _openFileDialog.FileNames)
                 {
-                    if (File.Exists(filename))
+                    if (File.Exists(path) == true)
                     {
-                        MusicModel _toAdd = null;
-                        try
-                        {
-                            _toAdd = new MusicModel(filename);
-                            if (Exists(filename) == false)
-                            {
-                                this.MusicPaths.Add(filename);
-                                this.Musics.Add(_toAdd);
-                            }
-                            else
-                                _notAdded += _toAdd.Title + " de " + _toAdd.Artist + "\n";
-                        }
-                        catch
-                        {
-                            var _dlg = new ModernDialog
-                            {
-                                Title = "Erreur",
-                                Content = "Impossible d'ajouter le fichier audio " + filename.ToString().Split('\\').Last().ToString() + " car celui-ci est corrompu."
-                            };
-                            _dlg.Buttons = new Button[] { _dlg.OkButton };
-                            _dlg.ShowDialog();
-                        }
+                        this.AddMusic(path);
                     }
                 }
-                this.SaveMusics();
+                this.mediaCollection.Save();
             }
-            if (_notAdded.Length > 0)
+        }
+
+        /// <summary>
+        /// Add a music to the media library when user drops musics in the panel
+        /// </summary>
+        /// <param name="param"></param>
+        private void AddMusicDropCommandAction(Object param)
+        {
+            DragEventArgs _eventArgs = param as DragEventArgs;
+
+            if (_eventArgs.Data.GetDataPresent(DataFormats.FileDrop, false) == true)
+            {
+                this.mediaCollection.Load();
+                String[] _files = _eventArgs.Data.GetData(DataFormats.FileDrop) as String[];
+                foreach (String path in _files)
+                {
+                    if (File.Exists(path) == true)
+                    {
+                        this.AddMusic(path);
+                    }
+                }
+                this.mediaCollection.Save();
+            }
+        }
+
+        /// <summary>
+        /// Add a music to the media library
+        /// </summary>
+        /// <param name="path"></param>
+        private void AddMusic(String path)
+        {
+            MusicModel _toAdd = null;
+
+            try
+            {
+                _toAdd = new MusicModel(path);
+                if (this.Musics.FirstOrDefault((musicPath) => { return musicPath.Path == path; }) == null)
+                {
+                    this.Musics.Add(_toAdd);
+                    this.OnPropertyChanged("Musics");
+                }
+            }
+            catch (Exception e)
             {
                 var _dlg = new ModernDialog
                 {
-                    Title = "Information",
-                    Content = "Les musiques suivantes sont déjà sur votre bibliothèque et n'ont donc pas été ajoutées:\n\n" + _notAdded
+                    Title = "Erreur",
+                    Content = "Impossible d'ajouter le fichier audio " + path.ToString().Split('\\').Last().ToString() + " car celui-ci est corrompu.\nErreur: " + e.Message
                 };
                 _dlg.Buttons = new Button[] { _dlg.OkButton };
                 _dlg.ShowDialog();
             }
         }
 
-        private Boolean Exists(String toAdd)
-        {
-            foreach (String _music in this.MusicPaths)
-            {
-                if (_music.Equals(toAdd))
-                    return true;
-            }
-            return false;
-        }
-
-        private void SaveMusics()
-        {
-            XmlSerializer.Serialize<List<String>>(this.MusicPaths, Constants.MUSICS_FILE);
-        }
-
-        private void LoadMusics()
-        {
-            List<String> _removedFiles = new List<String>();
-
-            if (File.Exists(Constants.MUSICS_FILE) == false)
-            {
-                return;
-            }
-            StreamReader _reader = new StreamReader(Constants.MUSICS_FILE);
-            if ((this.MusicPaths = XmlSerializer.Deserialize<List<String>>(_reader)) != null)
-            {
-                this.Musics.Clear();
-                foreach (String path in this.MusicPaths)
-                {
-                    if (File.Exists(path))
-                    {
-                        MusicModel _music = null; 
-
-                        try
-                        {
-                            _music = new MusicModel(path);
-                        }
-                        catch
-                        {
-                            var _dlg = new ModernDialog
-                            {
-                                Title = "Erreur",
-                                Content = "Le fichier " + path.Split('\\').Last().ToString() + " est corrompu."
-                            };
-                            _dlg.Buttons = new Button[] { _dlg.OkButton };
-                            _dlg.ShowDialog();
-                            _removedFiles.Add(path);
-                            continue;
-                        }
-                        this.Musics.Add(_music);
-                    }
-                    else
-                        _removedFiles.Add(path);
-                }
-                if (_removedFiles.Count > 0)
-                {
-                    String _output = "";
-                    foreach (String name in _removedFiles)
-                    {
-                        _output += name + "\n";
-                        this.MusicPaths.Remove(name);
-                    }
-                    var _dlg = new ModernDialog
-                    {
-                        Title = "Information",
-                        Content = "Les musiques suivantes ne se trouvent plus à leur emplacement d'origine, elles ont donc été retirées de votre bibliothèque:\n\n" + _output
-                    };
-                    _dlg.Buttons = new Button[] { _dlg.OkButton };
-                    _dlg.ShowDialog();
-                    this.SaveMusics();
-                }
-            }
-        }
-
-        public void PlayMusicAction(Object param)
+        /// <summary>
+        /// Play music command action
+        /// </summary>
+        /// <param name="param"></param>
+        private void PlayMusicCommandAction(Object param)
         {
             MusicModel _music = param as MusicModel;
 

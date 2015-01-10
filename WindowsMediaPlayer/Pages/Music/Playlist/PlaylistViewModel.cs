@@ -80,7 +80,7 @@ namespace WindowsMediaPlayer.Pages.Music.Playlist
 
         private void SavePlaylists()
         {
-            XmlSerializer.Serialize<List<String>>(this.Playlists, Constants.PLAYLISTS_FILE);
+            //XmlSerializer.Serialize<List<String>>(this.Playlists, Constants.PLAYLISTS_FILE);
         }
 
         private void LoadPlaylists()

@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:viewmodel="clr-namespace:WindowsMediaPlayer.Pages.Music.Home"
+             xmlns:behaviors="clr-namespace:WindowsMediaPlayer.MVVM"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -22,14 +23,14 @@
         <DockPanel>
             <StackPanel MinWidth="200" Grid.Row="0">
                 <TextBlock Text="TOUTES LES MUSIQUES" Style="{StaticResource Heading2}" />
-                <mui:ModernButton Width="Auto" Command="{Binding AddMusicButton}" Content="ajouter des musiques" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "></mui:ModernButton>
+                <mui:ModernButton Width="Auto" Command="{Binding AddMusicButtonCommand}" Content="ajouter des musiques" Margin="0,10,0,10" HorizontalAlignment="Left" IconData="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z "></mui:ModernButton>
             </StackPanel>
         </DockPanel>
-        <ScrollViewer Margin="0,66,0,10" Grid.RowSpan="2">
+        <ScrollViewer Margin="0,66,0,10" Grid.RowSpan="2" AllowDrop="True" behaviors:DragDropBehaviour.DropCommand="{Binding AddMusicDropCommand}">
             <StackPanel>
                 <DataGrid Name="ALL_MUSIC_LIST" ItemsSource="{Binding Musics}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
                     <DataGrid.InputBindings>
-                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding PlayMusic}" CommandParameter="{Binding ElementName=ALL_MUSIC_LIST, Path=SelectedItem}" />
+                        <MouseBinding Gesture="LeftDoubleClick" Command="{Binding PlayMusicCommand}" CommandParameter="{Binding ElementName=ALL_MUSIC_LIST, Path=SelectedItem}" />
                     </DataGrid.InputBindings>
                     <DataGrid.Columns>
                         <mui:DataGridTextColumn Header="TITRE"  Binding="{Binding Title}"/>

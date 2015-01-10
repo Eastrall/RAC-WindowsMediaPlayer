@@ -24,7 +24,7 @@ namespace WindowsMediaPlayer.Serializer
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="sw"></param>
-        public static void Serialize<T>(Object obj, String path)
+        public static void Serialize<T>(T obj, String path)
         {
             try
             {
