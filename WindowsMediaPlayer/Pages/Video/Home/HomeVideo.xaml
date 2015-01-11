@@ -29,8 +29,10 @@
             </StackPanel>
         </ScrollViewer>
         <ScrollViewer Grid.Row="1" FlowDirection="RightToLeft" CanContentScroll="False" VerticalScrollBarVisibility="Auto" AllowDrop="True" behaviors:DragDropBehaviour.DropCommand="{Binding AddVideoDropCommand}">
-            <mui:ModernTab Layout="List" Links="{Binding VideosList}" FlowDirection="LeftToRight" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
-                
+            <mui:ModernTab Name="VIDEO_DATA" Layout="List" Links="{Binding VideosList}" FlowDirection="LeftToRight" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False">
+                <mui:ModernTab.InputBindings>
+                    <KeyBinding Key="Delete" Command="{Binding DeleteVideoCommand}" CommandParameter="{Binding ElementName=VIDEO_DATA, Path=SelectedSource}"/>
+                </mui:ModernTab.InputBindings>
             </mui:ModernTab>
         </ScrollViewer>
     </Grid>

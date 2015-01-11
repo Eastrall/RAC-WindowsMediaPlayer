@@ -51,6 +51,11 @@ namespace WindowsMediaPlayer
         /// </summary>
         public MediaMusic Audio { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the current playlist
+        /// </summary>
+        public String CurrentPlaylist { get; set; }
+
         #endregion
 
         #region CONSTRUCTORS

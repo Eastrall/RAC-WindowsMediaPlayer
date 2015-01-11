@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Threading;
 using System.Windows;
 using WindowsMediaPlayer.Media;
+using System.Windows.Threading;
 
 /*--------------------------------------------------------
  * HomeViewModel.cs - file description
@@ -27,6 +28,12 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 {
     public class HomeViewModel : NotifyPropertyChanged
     {
+        #region STATIC
+
+        public static Boolean NeedMusicUpdate = false;
+
+        #endregion
+
         #region FIELDS
 
         private MediaCollection<MusicModel> mediaCollection;
@@ -35,7 +42,11 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
         private RelayCommand addMusicDropCommand;
 
+        private RelayCommand deleteMusicCommand;
+
         private RelayCommand playMusicCommand;
+
+        private Int32 selectedIndex;
 
         #endregion
 
@@ -88,6 +99,26 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         }
 
         /// <summary>
+        /// Delete a music
+        /// </summary>
+        public RelayCommand DeleteMusicCommand
+        {
+            get
+            {
+                if (this.deleteMusicCommand == null)
+                {
+                    this.deleteMusicCommand = new RelayCommand((param) => { this.DeleteMusicCommandAction(param); });
+                }
+                return this.deleteMusicCommand;
+            }
+            set
+            {
+                this.deleteMusicCommand = value;
+                this.OnPropertyChanged("DeleteMusicCommand");
+            }
+        }
+
+        /// <summary>
         /// Play music command
         /// </summary>
         public RelayCommand PlayMusicCommand
@@ -102,6 +133,22 @@ namespace WindowsMediaPlayer.Pages.Music.Home
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Current music index on the datagrid
+        /// </summary>
+        public Int32 SelectedIndex
+        {
+            get
+            {
+                return this.selectedIndex;
+            }
+            set
+            {
+                this.selectedIndex = value;
+                this.OnPropertyChanged("SelectedIndex");
+            }
+        }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -111,9 +158,16 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         /// </summary>
         public HomeViewModel()
         {
+            this.SelectedIndex = -1;
             this.mediaCollection = new MediaCollection<MusicModel>(Constants.MUSICS_FILE);
             this.mediaCollection.OnLoaded += mediaCollection_OnLoaded;
             this.mediaCollection.Load();
+
+            // Initialize update timer
+            DispatcherTimer _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(0.1);
+            _timer.Tick += TimerTick;
+            _timer.Start();
         }
 
         #endregion
@@ -208,8 +262,31 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         {
             MusicModel _music = param as MusicModel;
 
+            this.SelectedIndex = this.mediaCollection.Content.ToList().FindIndex((music) => { return music.Path == _music.Path; });
+            MediaPlayer.Instance.CurrentPlaylist = null;
             MediaPlayer.Instance.Audio.Load(_music.Path);
             MediaPlayer.Instance.Audio.Play();
+        }
+
+        /// <summary>
+        /// Delete a music from the global playlist
+        /// </summary>
+        /// <param name="param"></param>
+        private void DeleteMusicCommandAction(Object param)
+        {
+            MusicModel _music = param as MusicModel;
+
+            ModernDialog _dlg = new ModernDialog
+            {
+                Title = "Confirmation",
+                Content = "Voulez-vous vraiment supprimer '" + _music.Title + "' ?"
+            };
+            _dlg.Buttons = new Button[] { _dlg.YesButton, _dlg.NoButton };
+            if (_dlg.ShowDialog() == true)
+            {
+                this.Musics.Remove(_music);
+                this.mediaCollection.Save();
+            }
         }
 
         /// <summary>
@@ -224,6 +301,20 @@ namespace WindowsMediaPlayer.Pages.Music.Home
                 {
                     music.RefreshData();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Update the datagrid cursor position
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void TimerTick(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(MediaPlayer.Instance.Audio.Source) == false && NeedMusicUpdate == true)
+            {
+                NeedMusicUpdate = false;
+                this.SelectedIndex = this.mediaCollection.Content.ToList().FindIndex((music) => { return music.Path == MediaPlayer.Instance.Audio.Source; });
             }
         }
 

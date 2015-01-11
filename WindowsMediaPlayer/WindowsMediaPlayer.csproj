@@ -79,7 +79,15 @@
     </Compile>
     <Compile Include="Pages\Music\Home\HomeViewModel.cs" />
     <Compile Include="Pages\Music\Home\MusicModel.cs" />
-    <Compile Include="Pages\Music\Playlist\PlaylistContent.xaml.cs">
+    <Compile Include="Pages\Music\Playlist\AddPlaylistMusics\AddPlaylistMusics.xaml.cs">
+      <DependentUpon>AddPlaylistMusics.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Music\Playlist\AddPlaylistMusics\AddPlaylistMusicViewModel.cs" />
+    <Compile Include="Pages\Music\Playlist\AddPlaylist\AddPlaylist.xaml.cs">
+      <DependentUpon>AddPlaylist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Music\Playlist\AddPlaylist\AddPlaylistViewModel.cs" />
+    <Compile Include="Pages\Music\Playlist\PlaylistContent\PlaylistContent.xaml.cs">
       <DependentUpon>PlaylistContent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Music\Playlist\PlaylistModel.cs" />
@@ -90,7 +98,7 @@
     <Compile Include="Pages\Music\Playlist\Playlist.xaml.cs">
       <DependentUpon>Playlist.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Music\Playlist\PlaylistContentViewModel.cs" />
+    <Compile Include="Pages\Music\Playlist\PlaylistContent\PlaylistContentViewModel.cs" />
     <Compile Include="Pages\Music\Playlist\PlaylistViewModel.cs" />
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -130,11 +138,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Music\Playlist\AddPlaylistMusics\AddPlaylistMusics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Music\Playlist\AddPlaylist\AddPlaylist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Music\Playlist\Playlist.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Music\Playlist\PlaylistContent.xaml">
+    <Page Include="Pages\Music\Playlist\PlaylistContent\PlaylistContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,7 +178,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Pages\Pictures\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

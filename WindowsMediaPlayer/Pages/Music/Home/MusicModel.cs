@@ -29,6 +29,8 @@ namespace WindowsMediaPlayer.Pages.Music.Home
 
         public String Path { get; set; }
 
+        public Boolean Checked { get; set; }
+
         #endregion
 
         #region CONSTRUCTORS

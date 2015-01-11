@@ -33,6 +33,8 @@ namespace WindowsMediaPlayer.Pages.Video.Home
 
         private RelayCommand addVideoDropCommand;
 
+        private RelayCommand deleteVideoCommand;
+
         private LinkCollection videosList;
 
         #endregion
@@ -96,6 +98,26 @@ namespace WindowsMediaPlayer.Pages.Video.Home
             {
                 this.addVideoDropCommand = value;
                 this.OnPropertyChanged("AddVideoDropCommand");
+            }
+        }
+
+        /// <summary>
+        /// Delete a video
+        /// </summary>
+        public RelayCommand DeleteVideoCommand
+        {
+            get
+            {
+                if (this.deleteVideoCommand == null)
+                {
+                    this.deleteVideoCommand = new RelayCommand((param) => { this.DeleteVideoCommandAction(param); });
+                }
+                return this.deleteVideoCommand;
+            }
+            set
+            {
+                this.deleteVideoCommand = value;
+                this.OnPropertyChanged("DeleteVideoCommand");
             }
         }
 
@@ -181,6 +203,26 @@ namespace WindowsMediaPlayer.Pages.Video.Home
                 {
                     this.AddVideo(file);
                 }
+            }
+        }
+
+        private void DeleteVideoCommandAction(Object param)
+        {
+            String _videoPath = (param as Uri).OriginalString.Split('#').Last();
+            VideoModel _video = this.mediaCollection.Content.ToList().Find((video) => { return video.Path == _videoPath; });
+            Link _link = this.VideosList.ToList().Find((link) => { return link.DisplayName == _video.Name; });
+
+            ModernDialog _dlg = new ModernDialog
+            {
+                Title = "Confirmation",
+                Content = "Voulez-vous vraiment supprimer '" + _video.Name + "' ?"
+            };
+            _dlg.Buttons = new Button[] { _dlg.YesButton, _dlg.NoButton };
+            if (_dlg.ShowDialog() == true)
+            {
+                this.mediaCollection.Content.Remove(_video);
+                this.mediaCollection.Save();
+                this.VideosList.Remove(_link);
             }
         }
 

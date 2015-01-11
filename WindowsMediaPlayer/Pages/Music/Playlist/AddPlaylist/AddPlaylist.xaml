@@ -1,0 +1,46 @@
+﻿<mui:ModernDialog x:Class="WindowsMediaPlayer.Pages.Music.Playlist.AddPlaylist.AddPlaylist"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:viewmodel="clr-namespace:WindowsMediaPlayer.Pages.Music.Playlist.AddPlaylist"
+                  mc:Ignorable="d" 
+                  d:DesignHeight="300" d:DesignWidth="300"
+                  Title="Création d'une nouvelle playlist        ">
+    
+    <mui:ModernDialog.DataContext>
+        <viewmodel:AddPlaylistViewModel />
+    </mui:ModernDialog.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <TextBlock Text="NOUVELLE PLAYLIST" Style="{StaticResource Heading2}" />
+        </DockPanel>
+        <DockPanel Grid.Row="1" Margin="0,10,0,0">
+            <StackPanel>
+                <TextBlock Text="Nom: "/>
+            </StackPanel>
+            <StackPanel>
+                <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            </StackPanel>
+        </DockPanel>
+        <ScrollViewer Grid.Row="2">
+            <DataGrid Name="ALL_MUSIC_LIST" ItemsSource="{Binding Musics}" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow">
+                <DataGrid.Columns>
+                    <mui:DataGridCheckBoxColumn Header="ACTION" Binding="{Binding Checked}" IsReadOnly="False"></mui:DataGridCheckBoxColumn>
+                    <mui:DataGridTextColumn Header="TITRE"  Binding="{Binding Title}" IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="ARTISTE" Binding="{Binding Artist}"  IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="DUREE" Binding="{Binding Duration}"  IsReadOnly="True"/>
+                    <mui:DataGridTextColumn Header="ALBUM" Binding="{Binding Album}" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+    </Grid>
+
+</mui:ModernDialog>

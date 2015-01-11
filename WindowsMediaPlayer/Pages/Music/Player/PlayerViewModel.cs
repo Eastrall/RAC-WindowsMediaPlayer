@@ -195,6 +195,11 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
         }
 
+        /// <summary>
+        /// Player current playlist
+        /// </summary>
+        public String CurrentPlaylist { get; set; }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -295,14 +300,41 @@ namespace WindowsMediaPlayer.Pages.Music.Player
         }
 
         /// <summary>
+        /// Returns the current playlist in a MediaCollection
+        /// </summary>
+        /// <returns></returns>
+        private MediaCollection<MusicModel> GetCurrentPlaylist()
+        {
+            MediaCollection<MusicModel> _mediaCollection = new MediaCollection<MusicModel>(Constants.MUSICS_FILE);
+
+            if (MediaPlayer.Instance.CurrentPlaylist == null)
+            {
+                _mediaCollection.Load();
+                return _mediaCollection;
+            }
+            MediaCollection<Playlist.PlaylistModel> _mediaPlaylistCollection = new MediaCollection<Playlist.PlaylistModel>(Constants.PLAYLISTS_FILE);
+            _mediaPlaylistCollection.Load();
+            _mediaPlaylistCollection.Content.ToList().ForEach((playlist) =>
+            {
+                if (MediaPlayer.Instance.CurrentPlaylist == playlist.Name)
+                {
+                    playlist.Musics.ForEach((musicPath) =>
+                    {
+                        _mediaCollection.Content.Add(new MusicModel(musicPath));
+                    });
+                }
+            });
+            return _mediaCollection;
+        }
+
+        /// <summary>
         /// Next song
         /// </summary>
         private void NextSong()
         {
             String _nextSong = null;
             Int32 _currentIndex = 0;
-            MediaCollection<MusicModel> _musicCollection = new MediaCollection<MusicModel>(Constants.MUSICS_FILE);
-            _musicCollection.Load();
+            MediaCollection<MusicModel> _musicCollection = this.GetCurrentPlaylist();
 
             if (_musicCollection.Content.Count > 0)
             {
@@ -322,7 +354,7 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             }
 
             _musicCollection.Dispose();
-            HomeViewModel.NeedMusicUpdate = true;
+            this.UpdatePlayer();
         }
 
         /// <summary>
@@ -332,9 +364,8 @@ namespace WindowsMediaPlayer.Pages.Music.Player
         {
             String _previousSong = null;
             Int32 _currentIndex = 0;
-            MediaCollection<MusicModel> _musicCollection = new MediaCollection<MusicModel>(Constants.MUSICS_FILE);
+            MediaCollection<MusicModel> _musicCollection = this.GetCurrentPlaylist();
 
-            _musicCollection.Load();
             if (_musicCollection.Content.Count > 0)
             {
                 _currentIndex = _musicCollection.Content.ToList().FindIndex((music) => { return music.Path == MediaPlayer.Instance.Audio.Source; });
@@ -355,7 +386,22 @@ namespace WindowsMediaPlayer.Pages.Music.Player
                 MediaPlayer.Instance.Audio.Play();
             }
             _musicCollection.Dispose();
-            HomeViewModel.NeedMusicUpdate = true;
+            this.UpdatePlayer();
+        }
+
+        /// <summary>
+        /// Update the player
+        /// </summary>
+        private void UpdatePlayer()
+        {
+            if (MediaPlayer.Instance.CurrentPlaylist == null)
+            {
+                HomeViewModel.NeedMusicUpdate = true;
+            }
+            else
+            {
+                Playlist.PlaylistContentViewModel.NeedMusicUpdate = true;
+            }
         }
 
         #endregion

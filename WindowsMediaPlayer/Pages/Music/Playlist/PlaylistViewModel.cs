@@ -10,6 +10,8 @@ using WindowsMediaPlayer.Serializer;
 using FirstFloor.ModernUI.Windows.Controls;
 using System.Windows.Controls;
 using WindowsMediaPlayer.Pages.Music.Home;
+using WindowsMediaPlayer.Media;
+using System.Windows.Threading;
 
 /*--------------------------------------------------------
  * PlaylistViewModel.cs - file description
@@ -27,35 +29,70 @@ namespace WindowsMediaPlayer.Pages.Music.Playlist
     {
         #region FIELDS
 
-        private List<PlaylistModel> playlists;
+        private MediaCollection<PlaylistModel> mediaCollection;
 
-        private RelayCommand addPlaylistButton;
+        private RelayCommand addPlaylistCommand;
+
+        private RelayCommand deletePlaylistCommand;
+
+        private LinkCollection playlistLinks;
 
         #endregion
 
         #region PROPERTIES
 
-        private List<PlaylistModel> Playlists
+        /// <summary>
+        /// Add a new playlist
+        /// </summary>
+        public RelayCommand AddPlaylistCommand
         {
             get
             {
-                if (this.playlists == null)
-                    this.playlists = new List<PlaylistModel>();
-                return this.playlists;
-            }
-            set
-            {
-                this.playlists = value;
+                if (this.addPlaylistCommand == null)
+                {
+                    this.addPlaylistCommand = new RelayCommand((param) => { this.AddPlaylistCommndAction(param); });
+                }
+                return this.addPlaylistCommand;
             }
         }
 
-        public RelayCommand AddPlaylistButton
+        /// <summary>
+        /// Delete a playlist
+        /// </summary>
+        public RelayCommand DeletePlaylistCommand
         {
             get
             {
-                if (this.addPlaylistButton == null)
-                    this.addPlaylistButton = new RelayCommand((sender) => { this.onAddPlaylist(sender); });
-                return this.addPlaylistButton;
+                if (this.deletePlaylistCommand == null)
+                {
+                    this.deletePlaylistCommand = new RelayCommand((param) => { this.DeletePlaylistCommandAction(param); });
+                }
+                return this.deletePlaylistCommand;
+            }
+            set
+            {
+                this.deletePlaylistCommand = value;
+                this.OnPropertyChanged("DeletePlaylistCommand");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the playlist tab links
+        /// </summary>
+        public LinkCollection PlaylistLinks
+        {
+            get
+            {
+                if (this.playlistLinks == null)
+                {
+                    this.playlistLinks = new LinkCollection();
+                }
+                return this.playlistLinks;
+            }
+            set
+            {
+                this.playlistLinks = value;
+                this.OnPropertyChanged("PlaylistLinks");
             }
         }
 
@@ -68,35 +105,68 @@ namespace WindowsMediaPlayer.Pages.Music.Playlist
         /// </summary>
         public PlaylistViewModel()
         {
+            this.mediaCollection = new MediaCollection<PlaylistModel>(Constants.PLAYLISTS_FILE);
+            this.UpdateLinks();
         }
 
         #endregion
 
         #region METHODS
 
-        void    onAddPlaylist(Object sender)
+        /// <summary>
+        /// Add a new playlist
+        /// </summary>
+        /// <param name="param"></param>
+        private void AddPlaylistCommndAction(Object param)
         {
+            AddPlaylist.AddPlaylist a = new AddPlaylist.AddPlaylist();
+            a.ShowDialog();
+            this.UpdateLinks();
         }
 
-        private void SavePlaylists()
+        /// <summary>
+        /// Delete a selected playlist
+        /// </summary>
+        /// <param name="param"></param>
+        private void DeletePlaylistCommandAction(Object param)
         {
-            //XmlSerializer.Serialize<List<String>>(this.Playlists, Constants.PLAYLISTS_FILE);
-        }
+            String _playlistName = (param as Uri).OriginalString.Split('#').Last();
+            PlaylistModel _playlist = this.mediaCollection.Content.ToList().Find((playlist) => { return playlist.Name == _playlistName; });
+            Link _link = this.PlaylistLinks.ToList().Find((link) => { return link.DisplayName == _playlistName; });
 
-        private void LoadPlaylists()
-        {
-            if (File.Exists(Constants.MUSICS_FILE) == false)
+            ModernDialog _dlg = new ModernDialog
             {
-                return;
-            }
-            StreamReader _reader = new StreamReader(Constants.PLAYLISTS_FILE);
-            if ((this.Playlists = XmlSerializer.Deserialize<List<PlaylistModel>>(_reader)) != null)
+                Title = "Confirmation",
+                Content = "Voulez-vous vraiment supprimer '" + _playlistName + "' ?"
+            };
+
+            _dlg.Buttons = new Button[] { _dlg.YesButton, _dlg.NoButton };
+            if (_dlg.ShowDialog() == true)
             {
-                foreach (PlaylistModel playlist in this.Playlists)
+                if (_playlist != null)
                 {
-                    // Mettre les onglets de playlist
+                    this.mediaCollection.Content.Remove(_playlist);
+                    this.mediaCollection.Save();
+                    this.PlaylistLinks.Remove(_link);
                 }
             }
+        }
+
+        /// <summary>
+        /// Update the tab links
+        /// </summary>
+        private void UpdateLinks()
+        {
+            this.PlaylistLinks.Clear();
+            this.mediaCollection.Load();
+            this.mediaCollection.Content.ToList().ForEach((playlist) =>
+            {
+                this.PlaylistLinks.Add(new Link()
+                {
+                    DisplayName = playlist.Name,
+                    Source = new Uri("/Pages/Music/Playlist/PlaylistContent/PlaylistContent.xaml#" + playlist.Name, UriKind.Relative)
+                });
+            });
         }
 
         #endregion

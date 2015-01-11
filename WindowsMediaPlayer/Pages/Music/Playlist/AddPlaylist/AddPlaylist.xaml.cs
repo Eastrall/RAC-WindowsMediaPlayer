@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirstFloor.ModernUI.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WindowsMediaPlayer.Pages.Music.Playlist
+namespace WindowsMediaPlayer.Pages.Music.Playlist.AddPlaylist
 {
     /// <summary>
-    /// Interaction logic for PlaylistContent.xaml
+    /// Interaction logic for AddPlaylist.xaml
     /// </summary>
-    public partial class PlaylistContent : UserControl
+    public partial class AddPlaylist : ModernDialog
     {
-        public PlaylistContent()
+        public AddPlaylist()
         {
             InitializeComponent();
+            this.OkButton.Click += (sender, e) => { (this.DataContext as AddPlaylistViewModel).SavePlaylist(); };
+            this.Buttons = new Button[] { this.OkButton, this.CancelButton };
         }
     }
 }
