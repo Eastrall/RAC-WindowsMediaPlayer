@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 /*--------------------------------------------------------
  * HomePicturesViewModel.cs - file description
@@ -23,6 +24,7 @@ namespace WindowsMediaPlayer.Pages.Pictures
         #region FIELDS
 
         private RelayCommand openImageCommand;
+        private RelayCommand openImageDropCommand;
         private RelayCommand editImageCommand;
 
         private String source;
@@ -48,6 +50,23 @@ namespace WindowsMediaPlayer.Pages.Pictures
             {
                 this.openImageCommand = value;
                 this.OnPropertyChanged("OpenImageCommand");
+            }
+        }
+
+        public RelayCommand OpenImageDropCommand
+        {
+            get
+            {
+                if (this.openImageDropCommand == null)
+                {
+                    this.openImageDropCommand = new RelayCommand((param) => { this.OpenImageDropCommandAction(param); });
+                }
+                return this.openImageDropCommand;
+            }
+            set
+            {
+                this.openImageDropCommand = value;
+                this.OnPropertyChanged("OpenImageDropCommand");
             }
         }
 
@@ -111,6 +130,24 @@ namespace WindowsMediaPlayer.Pages.Pictures
             if (_openFileDialog.ShowDialog() == true)
             {
                 this.Source = _openFileDialog.FileName;
+            }
+        }
+
+        /// <summary>
+        /// Open an image in the media element by droping it
+        /// </summary>
+        /// <param name="param"></param>
+        private void OpenImageDropCommandAction(Object param)
+        {
+            DragEventArgs _eventArgs = param as DragEventArgs;
+
+            if (_eventArgs.Data.GetDataPresent(DataFormats.FileDrop, false) == true)
+            {
+                String[] _files = _eventArgs.Data.GetData(DataFormats.FileDrop) as String[];
+                if (_files.Length > 0)
+                {
+                    this.Source = _files.First();
+                }
             }
         }
 

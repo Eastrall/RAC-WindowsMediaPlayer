@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:viewmodel="clr-namespace:WindowsMediaPlayer.Pages.Pictures"
+             xmlns:behaviors="clr-namespace:WindowsMediaPlayer.MVVM"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -29,8 +30,8 @@
                 <mui:ModernButton Content="ouvrir une image" Margin="0,7,0,5" IconData="{StaticResource OpenIcon}" Command="{Binding OpenImageCommand}"></mui:ModernButton>
             </StackPanel>
         </ScrollViewer>
-        <DockPanel Grid.Row="1">
-            <MediaElement Source="{Binding Source}"></MediaElement>
+        <DockPanel Grid.Row="1" AllowDrop="True" behaviors:DragDropBehaviour.DropCommand="{Binding OpenImageDropCommand}">
+            <MediaElement Source="{Binding Source}" AllowDrop="True"></MediaElement>
         </DockPanel>
         <DockPanel Grid.Row="2">
             <mui:ModernButton Content="modifier" Margin="0,5,0,0" IconData="{StaticResource EditIcon}" Command="{Binding EditImageCommand}"></mui:ModernButton>
