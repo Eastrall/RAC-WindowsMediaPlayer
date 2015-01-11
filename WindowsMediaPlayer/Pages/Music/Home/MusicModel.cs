@@ -63,6 +63,10 @@ namespace WindowsMediaPlayer.Pages.Music.Home
         {
             TagLib.File fileinfos;
 
+            if (System.IO.File.Exists(this.Path) == false)
+            {
+                return;
+            }
             fileinfos = TagLib.File.Create(this.Path);
             this.Title = fileinfos.Tag.Title;
             if (String.IsNullOrEmpty(this.Title) == true)
