@@ -15,7 +15,11 @@
         <mui:LinkGroup DisplayName="Vidéos">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="home" Source="/Pages/Video/Home/HomeVideo.xaml" />
-                <mui:Link DisplayName="online" Source="/Pages/Video/Home/OnlineVideo.xaml" />
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
+        <mui:LinkGroup DisplayName="Images">
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="home" Source="/Pages/Pictures/HomePictures.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
         <mui:LinkGroup DisplayName="Paramètres" GroupKey="settings">
