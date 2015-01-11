@@ -200,7 +200,10 @@ namespace WindowsMediaPlayer.Pages.Music.Playlist
                     {
                         playlist.Musics.ForEach((musicPath) =>
                         {
-                            this.CurrentMusics.Add(new MusicModel(musicPath));
+                            if (File.Exists(musicPath) == true)
+                            {
+                                this.CurrentMusics.Add(new MusicModel(musicPath));
+                            }
                         });
                     }
                 });

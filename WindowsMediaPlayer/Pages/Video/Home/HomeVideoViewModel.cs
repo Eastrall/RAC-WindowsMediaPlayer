@@ -234,7 +234,7 @@ namespace WindowsMediaPlayer.Pages.Video.Home
         {
             if (this.mediaCollection.Content.FirstOrDefault((videoPath) => { return path == videoPath.Path; }) == null)
             {
-                if (MediaPlayer.Instance.IsMedia(path) == true)
+                if (MediaPlayer.Instance.IsMedia(path) == true && File.Exists(path) == true)
                 {
                     this.AddFileToTab(path);
                     this.mediaCollection.Content.Add(new VideoModel(path.Split('\\').Last(), path));

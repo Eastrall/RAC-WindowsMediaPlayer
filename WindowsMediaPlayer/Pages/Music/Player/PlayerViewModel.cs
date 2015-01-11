@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Threading;
 using WindowsMediaPlayer.Media;
 using WindowsMediaPlayer.Pages.Music.Home;
+using System.IO;
 
 /*--------------------------------------------------------
  * PlayerViewModel.cs - file description
@@ -320,7 +321,10 @@ namespace WindowsMediaPlayer.Pages.Music.Player
                 {
                     playlist.Musics.ForEach((musicPath) =>
                     {
-                        _mediaCollection.Content.Add(new MusicModel(musicPath));
+                        if (File.Exists(musicPath) == true)
+                        {
+                            _mediaCollection.Content.Add(new MusicModel(musicPath));
+                        }
                     });
                 }
             });

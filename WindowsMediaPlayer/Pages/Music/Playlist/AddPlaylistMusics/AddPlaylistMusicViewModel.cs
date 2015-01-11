@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using WindowsMediaPlayer.Media;
+using System.IO;
 
 /*--------------------------------------------------------
  * AddPlaylistMusicViewModel.cs - file description
@@ -74,7 +75,7 @@ namespace WindowsMediaPlayer.Pages.Music.Playlist.AddPlaylistMusics
             this.SelectedMusics = new List<String>();
             this.mediaMusicCollection.Content.ToList().ForEach((music) =>
                 {
-                    if (music.Checked == true)
+                    if (music.Checked == true && File.Exists(music.Path) == true)
                     {
                         this.SelectedMusics.Add(music.Path);
                     }

@@ -233,6 +233,10 @@ namespace WindowsMediaPlayer.Pages.Music.Home
             try
             {
                 _toAdd = new MusicModel(path);
+                if (File.Exists(path) == false)
+                {
+                    return;
+                }
                 if (this.Musics != null)
                 {
                     if (this.Musics.FirstOrDefault((musicPath) => { return musicPath.Path == path; }) == null)
