@@ -28,7 +28,7 @@
         </DockPanel>
         <ScrollViewer Margin="0,66,0,10" Grid.RowSpan="2" AllowDrop="True" behaviors:DragDropBehaviour.DropCommand="{Binding AddMusicDropCommand}">
             <StackPanel>
-                <DataGrid Name="ALL_MUSIC_LIST" ItemsSource="{Binding Musics}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+                <DataGrid Name="ALL_MUSIC_LIST" ItemsSource="{Binding Musics}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" SelectedIndex="{Binding SelectedIndex}">
                     <DataGrid.InputBindings>
                         <MouseBinding Gesture="LeftDoubleClick" Command="{Binding PlayMusicCommand}" CommandParameter="{Binding ElementName=ALL_MUSIC_LIST, Path=SelectedItem}" />
                     </DataGrid.InputBindings>

@@ -125,6 +125,21 @@ namespace WindowsMediaPlayer.Media
             }
         }
 
+        /// <summary>
+        /// Gets the source path of the media
+        /// </summary>
+        public String Source
+        {
+            get
+            {
+                if (this.mediaPlayer.Source == null)
+                {
+                    return null;
+                }
+                return this.mediaPlayer.Source.OriginalString;
+            }
+        }
+
         #endregion
 
         #region CONSTRUCTORS

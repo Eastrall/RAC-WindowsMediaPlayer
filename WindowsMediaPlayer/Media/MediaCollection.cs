@@ -85,6 +85,14 @@ namespace WindowsMediaPlayer.Media
             XmlSerializer.Serialize<ObservableCollection<T>>(this.Content, this.Path);
         }
 
+        /// <summary>
+        /// Dispose the Media collection
+        /// </summary>
+        public void Dispose()
+        {
+            this.Content.Clear();
+        }
+
         #endregion
     }
 }

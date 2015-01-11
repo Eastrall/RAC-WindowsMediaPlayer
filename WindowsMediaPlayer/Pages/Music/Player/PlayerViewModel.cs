@@ -1,9 +1,12 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
+using WindowsMediaPlayer.Media;
+using WindowsMediaPlayer.Pages.Music.Home;
 
 /*--------------------------------------------------------
  * PlayerViewModel.cs - file description
@@ -62,7 +65,7 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             {
                 if (this.rewindCommand == null)
                 {
-                    this.rewindCommand = new RelayCommand((param) => { });
+                    this.rewindCommand = new RelayCommand((param) => { this.PreviousSong(); });
                 }
                 return this.rewindCommand;
             }
@@ -77,7 +80,7 @@ namespace WindowsMediaPlayer.Pages.Music.Player
             {
                 if (this.forwardCommand == null)
                 {
-                    this.forwardCommand = new RelayCommand((param) => { });
+                    this.forwardCommand = new RelayCommand((param) => { this.NextSong(); });
                 }
                 return this.forwardCommand;
             }
@@ -202,7 +205,6 @@ namespace WindowsMediaPlayer.Pages.Music.Player
         public PlayerViewModel()
         {
             this.InitializeData();
-
             MediaPlayer.Instance.Audio.Timer = new DispatcherTimer();
             MediaPlayer.Instance.Audio.Timer.Interval = TimeSpan.FromSeconds(1);
             MediaPlayer.Instance.Audio.Timer.Tick += TimerTick;
@@ -297,7 +299,63 @@ namespace WindowsMediaPlayer.Pages.Music.Player
         /// </summary>
         private void NextSong()
         {
-            // TODO: random 
+            String _nextSong = null;
+            Int32 _currentIndex = 0;
+            MediaCollection<MusicModel> _musicCollection = new MediaCollection<MusicModel>(Constants.MUSICS_FILE);
+            _musicCollection.Load();
+
+            if (_musicCollection.Content.Count > 0)
+            {
+                _currentIndex = _musicCollection.Content.ToList().FindIndex((music) => { return music.Path == MediaPlayer.Instance.Audio.Source; });
+
+                if (_currentIndex >= _musicCollection.Content.Count - 1)
+                {
+                    _currentIndex = 0;
+                }
+                else
+                {
+                    ++_currentIndex;
+                }
+                _nextSong = _musicCollection.Content[_currentIndex].Path;
+                MediaPlayer.Instance.Audio.Load(_nextSong);
+                MediaPlayer.Instance.Audio.Play();
+            }
+
+            _musicCollection.Dispose();
+            HomeViewModel.NeedMusicUpdate = true;
+        }
+
+        /// <summary>
+        /// Previous song
+        /// </summary>
+        private void PreviousSong()
+        {
+            String _previousSong = null;
+            Int32 _currentIndex = 0;
+            MediaCollection<MusicModel> _musicCollection = new MediaCollection<MusicModel>(Constants.MUSICS_FILE);
+
+            _musicCollection.Load();
+            if (_musicCollection.Content.Count > 0)
+            {
+                _currentIndex = _musicCollection.Content.ToList().FindIndex((music) => { return music.Path == MediaPlayer.Instance.Audio.Source; });
+                if (_currentIndex == 0)
+                {
+                    _previousSong = _musicCollection.Content.First().Path;
+                }
+                else
+                {
+                    if (MediaPlayer.Instance.Audio.CurrentPosition < 3)
+                    {
+                        --_currentIndex;
+                    }
+                    _previousSong = _musicCollection.Content[_currentIndex].Path;
+                }
+
+                MediaPlayer.Instance.Audio.Load(_previousSong);
+                MediaPlayer.Instance.Audio.Play();
+            }
+            _musicCollection.Dispose();
+            HomeViewModel.NeedMusicUpdate = true;
         }
 
         #endregion
